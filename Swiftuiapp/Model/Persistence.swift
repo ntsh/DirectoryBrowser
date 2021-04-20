@@ -1,10 +1,3 @@
-//
-//  Persistence.swift
-//  Swiftuiapp
-//
-//  Created by Neetesh Gupta on 17/11/2020.
-//
-
 import CoreData
 
 struct PersistenceController {

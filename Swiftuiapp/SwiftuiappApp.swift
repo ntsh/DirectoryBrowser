@@ -1,10 +1,3 @@
-//
-//  SwiftuiappApp.swift
-//  Swiftuiapp
-//
-//  Created by Neetesh Gupta on 17/11/2020.
-//
-
 import SwiftUI
 
 @main
@@ -13,8 +6,14 @@ struct SwiftuiappApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+//            ContentView()
+//                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+
+//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+
+            //  HomeView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            HomeView(documentsStore: DocumentsStore()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+
         }
     }
 }
