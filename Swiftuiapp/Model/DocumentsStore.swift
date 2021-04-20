@@ -28,6 +28,18 @@ class DocumentsStore: ObservableObject {
     func reload() {
         documents = loadDocuments()
     }
+
+    func delete(_ document: Document) {
+        do {
+            try FileManager.default.removeItem(at: document.url)
+            // Find current document and remove from documents array
+            if let index = documents.firstIndex(where: { $0.url == document.url }) {
+                documents.remove(at: index)
+            }
+        } catch let error as NSError {
+            NSLog("Error deleting file: \(error)")
+        }
+    }
 }
 
 class DocumentsStore_Preview: DocumentsStore {
