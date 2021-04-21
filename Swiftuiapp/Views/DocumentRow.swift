@@ -17,7 +17,7 @@ struct DocumentRow: View {
                     .allowsTightening(true)
 
                 if let created = document.created {
-                    Text("\(created, formatter: itemFormatter)")
+                    Text("\(created, formatter: ShortTimestampFormatter)")
                         .font(.subheadline)
                         .lineLimit(1)
                         .allowsTightening(true)
@@ -39,11 +39,3 @@ struct DocumentRow_Previews: PreviewProvider {
         }
     }
 }
-
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .short
-    return formatter
-}()

@@ -21,14 +21,14 @@ struct DocumentDetails: View {
                     Spacer()
                 }
 
-                AttributeView(key: "Size", value: sizeFormatter.string(fromByteCount: Int64(truncating: document.size)))
+                AttributeView(key: "Size", value: DocumentSizeFormatter.string(fromByteCount: Int64(truncating: document.size)))
 
                 if let created = document.created {
-                    AttributeView(key: "Created", value: itemFormatter.string(from: created))
+                    AttributeView(key: "Created", value: ShortTimestampFormatter.string(from: created))
                 }
 
                 if let modified = document.modified {
-                    AttributeView(key: "Modified", value: itemFormatter.string(from: modified))
+                    AttributeView(key: "Modified", value: ShortTimestampFormatter.string(from: modified))
                 }
             }
             .listStyle(InsetGroupedListStyle())
@@ -52,20 +52,6 @@ struct DocumentDetails_Previews: PreviewProvider {
             .environment(\.sizeCategory, .large)
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .short
-    return formatter
-}()
-
-private let sizeFormatter: ByteCountFormatter = {
-    let formatter = ByteCountFormatter()
-    formatter.isAdaptive = false
-    formatter.countStyle = .file
-    return formatter
-}()
 
 struct AttributeView: View {
     var key, value: String

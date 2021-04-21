@@ -88,13 +88,6 @@ struct HomeView: View {
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(documentsStore: DocumentsStore_Preview())
