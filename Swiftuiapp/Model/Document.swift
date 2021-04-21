@@ -6,5 +6,9 @@ struct Document: Identifiable {
 
     var name: String
     var url: URL
-    var date: Date
+    var size: NSNumber
+    var created: Date?
+    var modified: Date?
+
+    
 }

@@ -16,11 +16,13 @@ struct DocumentRow: View {
                     .lineLimit(2)
                     .allowsTightening(true)
 
-                Text("\(document.date, formatter: itemFormatter)")
-                    .font(.subheadline)
-                    .lineLimit(1)
-                    .allowsTightening(true)
-                    .minimumScaleFactor(0.5)
+                if let created = document.created {
+                    Text("\(created, formatter: itemFormatter)")
+                        .font(.subheadline)
+                        .lineLimit(1)
+                        .allowsTightening(true)
+                        .minimumScaleFactor(0.5)
+                }
             }
         }
     }

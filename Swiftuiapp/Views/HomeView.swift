@@ -17,8 +17,7 @@ struct HomeView: View {
             VStack {
                 List {
                     ForEach(documentsStore.documents) { document in
-                        NavigationLink(destination: DocumentDetails(document: document)
-                                        .navigationTitle(document.name)) {
+                        NavigationLink(destination: DocumentDetails(document: document)) {
                             DocumentRow(document: document)
                                 .padding(.vertical)
                         }

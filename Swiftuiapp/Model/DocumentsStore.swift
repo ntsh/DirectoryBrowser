@@ -12,7 +12,18 @@ func loadDocuments() -> [Document] {
         allDocuments = allFiles.map { (fileName) -> Document in
             var url = docDirectory
             url = url.appendingPathComponent(fileName)
-            return Document(name: fileName, url: url, date: Date())
+            var created, modified: Date?
+            var size: NSNumber = 0
+            do {
+                let attr = try FileManager.default.attributesOfItem(atPath: url.relativePath)
+                created = attr[FileAttributeKey.creationDate] as? Date
+                modified = attr[FileAttributeKey.modificationDate] as? Date
+                size = attr[FileAttributeKey.size] as? NSNumber ?? 0
+            } catch let error as NSError {
+                NSLog("Error reading file attr: \(error)")
+            }
+
+            return Document(name: fileName, url: url, size: size, created: created, modified: modified)
         }
     } catch let error as NSError {
         NSLog("Error traversing files directory: \(error)")
@@ -48,8 +59,8 @@ class DocumentsStore_Preview: DocumentsStore {
             super.documents = newValue
         }
         get {
-            return  [Document(name: "Hello.pdf", url: URL(string: "/")!, date: Date()),
-                     Document(name: "Travel documentation list.txt", url: URL(string: "/")!, date: Date().addingTimeInterval(-30000))]
+            return  [Document(name: "Hello.pdf", url: URL(string: "/")!, size:1700, created: Date()),
+                     Document(name: "Travel documentation list.txt", url: URL(string: "/")!, size:100000, created: Date().addingTimeInterval(-30000))]
         }
     }
 }
