@@ -56,7 +56,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
                 retry = false
 
                 do {
-                    try FileManager.default.moveItem(at: url, to: suitableUrl)
+                    try FileManager.default.copyItem(at: url, to: suitableUrl)
                 } catch CocoaError.fileWriteFileExists {
                     retry = true
 
