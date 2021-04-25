@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var isPresentedPicker = false
+    @State var isPresentedPicker = false
+    @State var isInputingName: Bool = false
 
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -12,10 +13,29 @@ struct HomeView: View {
 
     @ObservedObject var documentsStore: DocumentsStore
 
+    var listSectionHeader: some View {
+        HStack {
+            if isInputingName {
+                DocumentNameInputView {
+                    withAnimation {
+                        isInputingName = false
+                    }
+                } setName: { (name) in
+                    createFolder(name: name)
+                    withAnimation {
+                        isInputingName = false
+                    }
+                }
+            } else {
+                Text("All").background(Color.clear)
+            }
+        }
+    }
+
     var body: some View {
         NavigationView {
-            VStack {
-                List {
+            List() {
+                Section(header: listSectionHeader) {
                     ForEach(documentsStore.documents) { document in
                         NavigationLink(destination: DocumentDetails(document: document)) {
                             DocumentRow(document: document)
@@ -24,23 +44,34 @@ struct HomeView: View {
                     }
                     .onDelete(perform: deleteItems)
                 }
-                .listStyle(GroupedListStyle())
-
-                Button(action: didClickAddButton, label: {
-                    Text("Add")
-                })
             }
+            .listStyle(InsetListStyle())
             .navigationBarItems(trailing: HStack {
                 Button(action: {}) {
                     Image(systemName: "arrow.up.arrow.down")
                         .font(.title)
-                }.foregroundColor(.blue)
-                Button(action: didClickAddButton) {
+                        .foregroundColor(.blue)
+                }
+                Menu {
+                    Button(action: didClickAddButton) {
+                        Label("Import from Files", systemImage: "arrow.up.doc.fill")
+                    }
+                    Button(action: { }) {
+                        Label("Scan", systemImage: "doc.text.fill.viewfinder")
+                    }
+                    Button(action: { }) {
+                        Label("Import Photo", systemImage: "photo.fill.on.rectangle.fill")
+                    }
+                    Button(action: didClickCreateFolder) {
+                        Label("Create folder", systemImage: "plus.rectangle.fill.on.folder.fill")
+                    }
+                } label: {
                     Image(systemName: "plus.square.fill")
-                        .font(.largeTitle)
-                }.foregroundColor(.blue)
+                        .font(.title)
+                        .help(Text("Add documents"))
+                }
             })
-            .navigationTitle("All Documents")
+            .navigationTitle("Documents")
         }
         .sheet(isPresented:  $isPresentedPicker, onDismiss: dismissPicker) {
             DocumentPicker {
@@ -57,6 +88,17 @@ struct HomeView: View {
 
     func dismissPicker() {
         self.isPresentedPicker = false
+    }
+
+    func didClickCreateFolder() {
+        NSLog("Did click create folder")
+        withAnimation {
+            isInputingName = true
+        }
+    }
+
+    func createFolder(name: String) {
+        NSLog("create folder \(name)")
     }
 
     func didClickBrowseButton() {
@@ -90,8 +132,15 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(documentsStore: DocumentsStore_Preview())
-            .preferredColorScheme(.dark)
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        Group {
+            HomeView(isInputingName: true, documentsStore: DocumentsStore_Preview())
+                .preferredColorScheme(.light)
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+
+            HomeView(isInputingName: true, documentsStore: DocumentsStore_Preview())
+                .preferredColorScheme(.dark)
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        }
+
     }
 }
