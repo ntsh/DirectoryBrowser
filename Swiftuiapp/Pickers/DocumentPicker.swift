@@ -5,6 +5,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = UIDocumentPickerViewController
 
+    var documentsStore: DocumentsStore
     var callback: () -> ()
 
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
@@ -46,33 +47,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
         }
 
         private func importFile(from url: URL) {
-            let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-
-            var suitableUrl = docDirectory!.appendingPathComponent(url.lastPathComponent)
-
-            var retry = true
-            var retryCount = 1
-            while retry {
-                retry = false
-
-                do {
-                    try FileManager.default.copyItem(at: url, to: suitableUrl)
-                } catch CocoaError.fileWriteFileExists {
-                    retry = true
-
-                    // append (1) to file name
-                    let fileExtension = url.pathExtension
-                    let fileNameWithoutExtension = url.deletingPathExtension().lastPathComponent
-                    let fileNameWithCountSuffix = fileNameWithoutExtension.appending(" (\(retryCount))")
-                    suitableUrl = docDirectory!.appendingPathComponent(fileNameWithCountSuffix).appendingPathExtension(fileExtension)
-
-                    retryCount += 1
-
-                    NSLog("Retry *** suitableName = \(suitableUrl.lastPathComponent)")
-                } catch let error as NSError {
-                    NSLog("Error importing file: \(error)")
-                }
-            }
+            parent.documentsStore.importFile(from: url)
         }
     }
 }

@@ -10,5 +10,5 @@ struct Document: Identifiable {
     var created: Date?
     var modified: Date?
 
-    
+    var isDirectory: Bool = false
 }

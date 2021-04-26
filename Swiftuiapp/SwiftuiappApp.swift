@@ -12,7 +12,7 @@ struct SwiftuiappApp: App {
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
 
             //  HomeView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-            HomeView(documentsStore: DocumentsStore()).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            HomeView(documentsStore: DocumentsStore(relativePath: "/")).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 
         }
     }

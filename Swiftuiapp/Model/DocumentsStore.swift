@@ -1,40 +1,51 @@
 import Foundation
 
-func loadDocuments() -> [Document] {
-    guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-        return []
-    }
-
-    var allDocuments: [Document] = []
-    do {
-        let allFiles = try FileManager.default.contentsOfDirectory(atPath: docDirectory.path)
-
-        allDocuments = allFiles.map { (fileName) -> Document in
-            var url = docDirectory
-            url = url.appendingPathComponent(fileName)
-            var created, modified: Date?
-            var size: NSNumber = 0
-            do {
-                let attr = try FileManager.default.attributesOfItem(atPath: url.relativePath)
-                created = attr[FileAttributeKey.creationDate] as? Date
-                modified = attr[FileAttributeKey.modificationDate] as? Date
-                size = attr[FileAttributeKey.size] as? NSNumber ?? 0
-            } catch let error as NSError {
-                NSLog("Error reading file attr: \(error)")
-            }
-
-            return Document(name: fileName, url: url, size: size, created: created, modified: modified)
-        }
-    } catch let error as NSError {
-        NSLog("Error traversing files directory: \(error)")
-    }
-
-    return allDocuments
-}
-
-
 class DocumentsStore: ObservableObject {
-    @Published var documents: [Document] = loadDocuments()
+    @Published var documents: [Document] = []
+
+    private var workingDirectory: URL?
+
+    init(relativePath: String) {
+        guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return
+        }
+        workingDirectory = docDirectory.appendingPathComponent(relativePath)
+        documents = loadDocuments()
+    }
+
+    func loadDocuments() -> [Document] {
+        guard let docDirectory = workingDirectory else {
+            return []
+        }
+
+        var allDocuments: [Document] = []
+        do {
+            let allFiles = try FileManager.default.contentsOfDirectory(atPath: docDirectory.path)
+
+            allDocuments = allFiles.map { (fileName) -> Document in
+                var url = docDirectory
+                url = url.appendingPathComponent(fileName)
+                var created, modified: Date?
+                var size: NSNumber = 0
+                var isDirectory = false
+                do {
+                    let attr = try FileManager.default.attributesOfItem(atPath: url.relativePath)
+                    created = attr[FileAttributeKey.creationDate] as? Date
+                    modified = attr[FileAttributeKey.modificationDate] as? Date
+                    size = attr[FileAttributeKey.size] as? NSNumber ?? 0
+                    isDirectory = attr[FileAttributeKey.type] as? FileAttributeType == FileAttributeType.typeDirectory
+                } catch let error as NSError {
+                    NSLog("Error reading file attr: \(error)")
+                }
+
+                return Document(name: fileName, url: url, size: size, created: created, modified: modified, isDirectory: isDirectory)
+            }
+        } catch let error as NSError {
+            NSLog("Error traversing files directory: \(error)")
+        }
+
+        return allDocuments
+    }
 
     func reload() {
         documents = loadDocuments()
@@ -53,7 +64,7 @@ class DocumentsStore: ObservableObject {
     }
 
     func createFolder(_ name: String) {
-        guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+        guard let docDirectory = workingDirectory else {
             return
         }
 
@@ -63,6 +74,37 @@ class DocumentsStore: ObservableObject {
             reload()
         } catch let error as NSError {
             NSLog("Error creating folder: \(error)")
+        }
+    }
+
+    func importFile(from url: URL) {
+        guard let docDirectory = workingDirectory else {
+            return
+        }
+        var suitableUrl = docDirectory.appendingPathComponent(url.lastPathComponent)
+
+        var retry = true
+        var retryCount = 1
+        while retry {
+            retry = false
+
+            do {
+                try FileManager.default.copyItem(at: url, to: suitableUrl)
+            } catch CocoaError.fileWriteFileExists {
+                retry = true
+
+                // append (1) to file name
+                let fileExtension = url.pathExtension
+                let fileNameWithoutExtension = url.deletingPathExtension().lastPathComponent
+                let fileNameWithCountSuffix = fileNameWithoutExtension.appending(" (\(retryCount))")
+                suitableUrl = docDirectory.appendingPathComponent(fileNameWithCountSuffix).appendingPathExtension(fileExtension)
+
+                retryCount += 1
+
+                NSLog("Retry *** suitableName = \(suitableUrl.lastPathComponent)")
+            } catch let error as NSError {
+                NSLog("Error importing file: \(error)")
+            }
         }
     }
 }

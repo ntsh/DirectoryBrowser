@@ -74,7 +74,7 @@ struct HomeView: View {
             .navigationTitle("Documents")
         }
         .sheet(isPresented:  $isPresentedPicker, onDismiss: dismissPicker) {
-            DocumentPicker {
+            DocumentPicker(documentsStore: documentsStore) {
                 NSLog("Docupicker callback")
                 documentsStore.reload()
             }
@@ -134,11 +134,11 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView(isInputingName: true, documentsStore: DocumentsStore_Preview())
+            HomeView(isInputingName: true, documentsStore: DocumentsStore_Preview(relativePath: "/"))
                 .preferredColorScheme(.light)
                 .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 
-            HomeView(isInputingName: true, documentsStore: DocumentsStore_Preview())
+            HomeView(isInputingName: true, documentsStore: DocumentsStore_Preview(relativePath: "/"))
                 .preferredColorScheme(.dark)
                 .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
         }
