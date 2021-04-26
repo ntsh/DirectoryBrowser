@@ -99,6 +99,7 @@ struct HomeView: View {
 
     func createFolder(name: String) {
         NSLog("create folder \(name)")
+        documentsStore.createFolder(name)
     }
 
     func didClickBrowseButton() {

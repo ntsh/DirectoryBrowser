@@ -51,6 +51,20 @@ class DocumentsStore: ObservableObject {
             NSLog("Error deleting file: \(error)")
         }
     }
+
+    func createFolder(_ name: String) {
+        guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return
+        }
+
+        let target = docDirectory.appendingPathComponent(name, isDirectory: true)
+        do {
+            try FileManager.default.createDirectory(at: target, withIntermediateDirectories: false, attributes: nil)
+            reload()
+        } catch let error as NSError {
+            NSLog("Error creating folder: \(error)")
+        }
+    }
 }
 
 class DocumentsStore_Preview: DocumentsStore {
