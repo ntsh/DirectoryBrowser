@@ -25,6 +25,7 @@
 		CD9871BB262CCF0F00CB282E /* DocumentPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9871BA262CCF0F00CB282E /* DocumentPreviewController.swift */; };
 		CD9871C0262CD49900CB282E /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9871BF262CD49900CB282E /* ThumbnailView.swift */; };
 		CDA4EF4B2635F2B700AEEE46 /* DocumentNameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */; };
+		CDA4EF5326370F1A00AEEE46 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF5226370F1A00AEEE46 /* FolderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		CD9871BA262CCF0F00CB282E /* DocumentPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPreviewController.swift; sourceTree = "<group>"; };
 		CD9871BF262CD49900CB282E /* ThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
 		CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentNameInputView.swift; sourceTree = "<group>"; };
+		CDA4EF5226370F1A00AEEE46 /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				CD6DD4CD262A37B7003CD1F6 /* DocumentDetails.swift */,
 				CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */,
 				CD9871BA262CCF0F00CB282E /* DocumentPreviewController.swift */,
+				CDA4EF5226370F1A00AEEE46 /* FolderView.swift */,
 				CD9871BF262CD49900CB282E /* ThumbnailView.swift */,
 			);
 			path = Views;
@@ -340,6 +343,7 @@
 				CD52025C2564901F005D463C /* Persistence.swift in Sources */,
 				CD5202552564901B005D463C /* ContentView.swift in Sources */,
 				CD6DD4CE262A37B7003CD1F6 /* DocumentDetails.swift in Sources */,
+				CDA4EF5326370F1A00AEEE46 /* FolderView.swift in Sources */,
 				CD5202532564901B005D463C /* SwiftuiappApp.swift in Sources */,
 				CD535B4D2565CD45003AA085 /* HomeView.swift in Sources */,
 				CD2F442425671CB100C9F244 /* DocumentPicker.swift in Sources */,

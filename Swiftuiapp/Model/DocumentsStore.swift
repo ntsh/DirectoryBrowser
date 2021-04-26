@@ -3,13 +3,18 @@ import Foundation
 class DocumentsStore: ObservableObject {
     @Published var documents: [Document] = []
 
-    private var workingDirectory: URL?
+    private var relativePath: String
+
+    private var workingDirectory: URL? {
+        guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+
+        return docDirectory.appendingPathComponent(relativePath)
+    }
 
     init(relativePath: String) {
-        guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return
-        }
-        workingDirectory = docDirectory.appendingPathComponent(relativePath)
+        self.relativePath = relativePath
         documents = loadDocuments()
     }
 
@@ -106,6 +111,11 @@ class DocumentsStore: ObservableObject {
                 NSLog("Error importing file: \(error)")
             }
         }
+    }
+
+    func relativePath(for document: Document) -> String {
+        let url = URL(fileURLWithPath: document.name, isDirectory: document.isDirectory, relativeTo: URL(fileURLWithPath: relativePath, isDirectory: true)).path
+        return url
     }
 }
 
