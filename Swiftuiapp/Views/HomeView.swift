@@ -5,7 +5,7 @@ struct HomeView: View {
 
     var body: some View {
         NavigationView {
-            FolderView(documentsStore: documentsStore)
+            FolderView(documentsStore: documentsStore, title: "Documents")
         }
     }
 }

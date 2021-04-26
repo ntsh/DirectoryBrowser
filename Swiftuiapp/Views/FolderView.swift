@@ -5,6 +5,7 @@ struct FolderView: View {
     @State var isInputingName: Bool = false
 
     @ObservedObject var documentsStore: DocumentsStore
+    var title: String
 
     var listSectionHeader: some View {
         HStack {
@@ -29,7 +30,7 @@ struct FolderView: View {
         HStack {
             Button(action: {}) {
                 Image(systemName: "arrow.up.arrow.down")
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(.blue)
             }
             Menu {
@@ -46,8 +47,8 @@ struct FolderView: View {
                     Label("Create folder", systemImage: "plus.rectangle.fill.on.folder.fill")
                 }
             } label: {
-                Image(systemName: "plus.square.fill")
-                    .font(.title)
+                Image(systemName: "doc.fill.badge.plus")
+                    .font(.title2)
                     .help(Text("Add documents"))
             }
         }
@@ -67,7 +68,7 @@ struct FolderView: View {
         }
         .listStyle(InsetListStyle())
         .navigationBarItems(trailing: actionButtons)
-        .navigationTitle("Documents")
+        .navigationTitle(title)
         .sheet(isPresented:  $isPresentedPicker, onDismiss: dismissPicker) {
             DocumentPicker(documentsStore: documentsStore) {
                 NSLog("Docupicker callback")
@@ -79,7 +80,7 @@ struct FolderView: View {
     private func navigationDestination(for document: Document) -> AnyView {
         if document.isDirectory {
             let relativePath = documentsStore.relativePath(for: document)
-            return AnyView(FolderView(documentsStore: DocumentsStore(relativePath: relativePath)))
+            return AnyView(FolderView(documentsStore: DocumentsStore(relativePath: relativePath), title: document.name))
         } else {
             return AnyView(DocumentDetails(document: document))
         }
@@ -118,7 +119,7 @@ struct FolderView: View {
 struct FolderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            FolderView(isInputingName: true, documentsStore: DocumentsStore_Preview(relativePath: "/"))
+            FolderView(isInputingName: true, documentsStore: DocumentsStore_Preview(relativePath: "/"), title: "Docs")
         }
     }
 }
