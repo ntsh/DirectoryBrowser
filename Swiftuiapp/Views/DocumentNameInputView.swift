@@ -23,6 +23,7 @@ struct DocumentNameInputView: View {
                 Button(action: { setName(newName) }, label: {
                     Text("Save")
                 })
+                .disabled($newName.wrappedValue.count == 0)
             }
             .padding(.bottom)
         }
