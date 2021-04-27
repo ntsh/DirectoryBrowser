@@ -3,25 +3,31 @@ import SwiftUI
 struct DocumentNameInputView: View {
     @State private var newName: String = ""
 
+    var heading: String
     var cancel: () -> ()
     var setName: (String) -> ()
 
     var body: some View {
         VStack (alignment: .leading) {
-            Text("Enter name").padding(.top)
+            Text(heading).padding(.top)
             HStack {
-                Image(systemName: "folder.fill").font(.title)
-                TextField("New name", text: $newName).textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("Enter name", text: $newName).textFieldStyle(RoundedBorderTextFieldStyle())
             }
             .padding(.vertical)
 
             HStack {
                 Button(action: { cancel() }, label: {
-                    Text("Cancel")
+                    HStack {
+                        Image(systemName: "multiply.circle.fill")
+                        Text("Cancel")
+                    }
                 })
                 Spacer()
                 Button(action: { setName(newName) }, label: {
-                    Text("Save")
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                        Text("Save")
+                    }
                 })
                 .disabled($newName.wrappedValue.count == 0)
             }
@@ -33,9 +39,9 @@ struct DocumentNameInputView: View {
 
 struct DocumentNameInputView_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentNameInputView(cancel: {}, setName: { _ in })
+        DocumentNameInputView(heading: "Enter folder name", cancel: {}, setName: { _ in })
             .previewLayout(.sizeThatFits)
             .padding()
-            .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+            .preferredColorScheme(.light)
     }
 }

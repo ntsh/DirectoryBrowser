@@ -10,7 +10,7 @@ struct FolderView: View {
     var listSectionHeader: some View {
         HStack {
             if isInputingName {
-                DocumentNameInputView {
+                DocumentNameInputView(heading: "Enter Folder Name") {
                     withAnimation {
                         isInputingName = false
                     }
