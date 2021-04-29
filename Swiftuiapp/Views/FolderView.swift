@@ -2,7 +2,8 @@ import SwiftUI
 
 struct FolderView: View {
     @State var isPresentedPicker = false
-    @State var isInputingName: Bool = false
+    @State var isInputingName = false
+    @State var documentNameErrorMessage: String?
 
     @ObservedObject var documentsStore: DocumentsStore
     var title: String
@@ -10,15 +11,10 @@ struct FolderView: View {
     var listSectionHeader: some View {
         HStack {
             if isInputingName {
-                DocumentNameInputView(heading: "Enter Folder Name") {
-                    withAnimation {
-                        isInputingName = false
-                    }
+                DocumentNameInputView(errorMessage: $documentNameErrorMessage, heading: "Enter Folder Name") {
+                    finishEnteringDocName()
                 } setName: { (name) in
                     createFolder(name: name)
-                    withAnimation {
-                        isInputingName = false
-                    }
                 }
             } else {
                 Text("All").background(Color.clear)
@@ -104,7 +100,23 @@ struct FolderView: View {
 
     func createFolder(name: String) {
         NSLog("create folder \(name)")
-        documentsStore.createFolder(name)
+        do {
+            try documentsStore.createFolder(name)
+            finishEnteringDocName()
+        } catch DocumentsStoreError.fileExists {
+            withAnimation {
+                documentNameErrorMessage = "Folder already exists"
+            }
+        } catch {
+            documentNameErrorMessage = "Unexpected error"
+        }
+    }
+
+    fileprivate func finishEnteringDocName() {
+        withAnimation {
+            isInputingName = false
+            documentNameErrorMessage = nil
+        }
     }
 
     private func deleteItems(offsets: IndexSet) {

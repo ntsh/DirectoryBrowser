@@ -1,5 +1,9 @@
 import Foundation
 
+enum DocumentsStoreError: Error {
+    case fileExists
+}
+
 class DocumentsStore: ObservableObject {
     @Published var documents: [Document] = []
 
@@ -68,7 +72,7 @@ class DocumentsStore: ObservableObject {
         }
     }
 
-    func createFolder(_ name: String) {
+    func createFolder(_ name: String) throws {
         guard let docDirectory = workingDirectory else {
             return
         }
@@ -77,8 +81,8 @@ class DocumentsStore: ObservableObject {
         do {
             try FileManager.default.createDirectory(at: target, withIntermediateDirectories: false, attributes: nil)
             reload()
-        } catch let error as NSError {
-            NSLog("Error creating folder: \(error)")
+        } catch CocoaError.fileWriteFileExists {
+            throw DocumentsStoreError.fileExists
         }
     }
 

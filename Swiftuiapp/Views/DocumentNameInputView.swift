@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DocumentNameInputView: View {
     @State private var newName: String = ""
+    @Binding var errorMessage: String?
 
     var heading: String
     var cancel: () -> ()
@@ -14,6 +15,15 @@ struct DocumentNameInputView: View {
                 TextField("Enter name", text: $newName).textFieldStyle(RoundedBorderTextFieldStyle())
             }
             .padding(.vertical)
+
+            if let errMsg = $errorMessage.wrappedValue {
+                HStack {
+                    Image(systemName: "exclamationmark.circle.fill")
+                    Text(errMsg).font(.callout)
+                }
+                .foregroundColor(.red)
+                .padding(.bottom)
+            }
 
             HStack {
                 Button(action: { cancel() }, label: {
@@ -39,7 +49,7 @@ struct DocumentNameInputView: View {
 
 struct DocumentNameInputView_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentNameInputView(heading: "Enter folder name", cancel: {}, setName: { _ in })
+        DocumentNameInputView(errorMessage: .constant("Folder exists"), heading: "Enter folder name", cancel: {}, setName: { _ in })
             .previewLayout(.sizeThatFits)
             .padding()
             .preferredColorScheme(.light)
