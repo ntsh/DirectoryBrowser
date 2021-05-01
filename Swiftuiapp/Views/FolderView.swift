@@ -50,25 +50,40 @@ struct FolderView: View {
         }
     }
 
-    var body: some View {
-        List() {
-            Section(header: listSectionHeader) {
-                ForEach(documentsStore.documents) { document in
-                    NavigationLink(destination: navigationDestination(for: document)) {
-                        DocumentRow(document: document)
-                            .padding(.vertical)
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
+    var emptyFolderView: some View {
+        VStack {
+            Text("Folder is empty")
+                .multilineTextAlignment(.center)
+                .padding()
         }
-        .listStyle(InsetListStyle())
-        .navigationBarItems(trailing: actionButtons)
-        .navigationTitle(title)
-        .sheet(isPresented:  $isPresentedPicker, onDismiss: dismissPicker) {
-            DocumentPicker(documentsStore: documentsStore) {
-                NSLog("Docupicker callback")
-                documentsStore.reload()
+    }
+
+    var body: some View {
+        ZStack {
+            List() {
+                Section(header: listSectionHeader) {
+                    ForEach(documentsStore.documents) { document in
+                        NavigationLink(destination: navigationDestination(for: document)) {
+                            DocumentRow(document: document)
+                                .padding(.vertical)
+                        }
+                    }
+                    .onDelete(perform: deleteItems)
+                }
+            }
+            .listStyle(InsetListStyle())
+            .background(Color.clear)
+            .navigationBarItems(trailing: actionButtons)
+            .navigationTitle(title)
+            .sheet(isPresented:  $isPresentedPicker, onDismiss: dismissPicker) {
+                DocumentPicker(documentsStore: documentsStore) {
+                    NSLog("Docupicker callback")
+                    documentsStore.reload()
+                }
+            }
+
+            if (documentsStore.documents.isEmpty) {
+                emptyFolderView
             }
         }
     }
