@@ -13,10 +13,10 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView(documentsStore: DocumentsStore_Preview(relativePath: "/"))
+            HomeView(documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)))
                 .preferredColorScheme(.light)
 
-            HomeView(documentsStore: DocumentsStore_Preview(relativePath: "/"))
+            HomeView(documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)))
                 .preferredColorScheme(.dark)
         }
     }

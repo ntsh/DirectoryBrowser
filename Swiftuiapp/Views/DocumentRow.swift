@@ -16,7 +16,7 @@ struct DocumentRow: View {
                     .lineLimit(2)
                     .allowsTightening(true)
 
-                if let created = document.created {
+                if let created = document.modified {
                     Text("\(created, formatter: ShortTimestampFormatter)")
                         .font(.subheadline)
                         .lineLimit(1)
@@ -31,7 +31,7 @@ struct DocumentRow: View {
 struct DocumentRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DocumentRow(document: DocumentsStore_Preview(relativePath: "/").documents[1])
+            DocumentRow(document: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)).documents[1])
                 .environment(\.sizeCategory, .large)
                 .previewLayout(.sizeThatFits)
                 .preferredColorScheme(.dark)

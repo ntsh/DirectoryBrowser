@@ -6,6 +6,7 @@ enum DocumentsStoreError: Error {
 
 class DocumentsStore: ObservableObject {
     @Published var documents: [Document] = []
+    @Published var sorting: SortOption = .date(ascending: false)
 
     private var relativePath: String
 
@@ -17,14 +18,17 @@ class DocumentsStore: ObservableObject {
         return docDirectory.appendingPathComponent(relativePath)
     }
 
-    init(relativePath: String) {
+    init(relativePath: String, sorting: SortOption) {
         self.relativePath = relativePath
-        documents = loadDocuments()
+        self.sorting = sorting
+
+        loadDocuments()
     }
 
-    func loadDocuments() -> [Document] {
+    func loadDocuments() {
         guard let docDirectory = workingDirectory else {
-            return []
+            documents = []
+            return
         }
 
         var allDocuments: [Document?] = []
@@ -54,11 +58,32 @@ class DocumentsStore: ObservableObject {
             NSLog("Error traversing files directory: \(error)")
         }
 
-        return allDocuments.compactMap { $0 }
+        documents = allDocuments.compactMap { $0 }
+        sort()
     }
 
     func reload() {
-        documents = loadDocuments()
+        loadDocuments()
+    }
+
+    fileprivate func sort() {
+        documents.sort { (doc1, doc2) -> Bool in
+            switch sorting {
+            case .date(ascending: let ascending):
+                guard let date1 = doc1.modified, let date2 = doc2.modified else {
+                    return ascending
+                }
+                return (date1.compare(date2) == .orderedAscending) == ascending
+            case .name(ascending: let ascending):
+                return (doc1.name.caseInsensitiveCompare(doc2.name) == .orderedAscending) == ascending
+            }
+        }
+    }
+
+    func setSorting(_ sorting: SortOption) {
+        self.sorting = sorting
+
+        sort()
     }
 
     func delete(_ document: Document) {
@@ -130,8 +155,8 @@ class DocumentsStore_Preview: DocumentsStore {
             super.documents = newValue
         }
         get {
-            return  [Document(name: "Hello.pdf", url: URL(string: "/")!, size:1700, created: Date()),
-                     Document(name: "Travel documentation list.txt", url: URL(string: "/")!, size:100000, created: Date().addingTimeInterval(-30000))]
+            return  [Document(name: "Hello.pdf", url: URL(string: "/")!, size:1700, modified: Date()),
+                     Document(name: "Travel documentation list.txt", url: URL(string: "/")!, size:100000, modified: Date().addingTimeInterval(-30000))]
         }
     }
 }

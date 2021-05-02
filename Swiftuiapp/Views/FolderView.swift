@@ -1,5 +1,10 @@
 import SwiftUI
 
+enum SortOption: Equatable {
+    case date(ascending: Bool)
+    case name(ascending: Bool)
+}
+
 struct FolderView: View {
     @State var isPresentedPicker = false
     @State var isInputingName = false
@@ -22,9 +27,66 @@ struct FolderView: View {
         }
     }
 
+    fileprivate func sortByDateButton() -> some View {
+        var sortImage: String = ""
+
+        switch documentsStore.sorting {
+        case .date(ascending: true):
+            sortImage = "arrow.up"
+        case .date(ascending: false):
+            sortImage = "arrow.down"
+        case .name(ascending: _):
+            sortImage = ""
+        }
+
+        return Label("Sort by date", systemImage: sortImage)
+    }
+
+    fileprivate func sortByNameButton() -> some View {
+        var sortImage: String = ""
+
+        switch documentsStore.sorting {
+        case .name(ascending: true):
+            sortImage = "arrow.up"
+        case .name(ascending: false):
+            sortImage = "arrow.down"
+        case .date(ascending: _):
+            sortImage = ""
+        }
+
+        return Label("Sort by name", systemImage: sortImage)
+    }
+
     var actionButtons: some View {
         HStack {
-            Button(action: {}) {
+            Menu {
+                Button(action: {
+                    withAnimation {
+                        switch documentsStore.sorting {
+                        case .date(ascending: let ascending):
+                            documentsStore.sorting = .date(ascending: !ascending)
+                        case .name(ascending: _):
+                            documentsStore.sorting = .date(ascending: true)
+                        }
+                        documentsStore.setSorting(documentsStore.sorting)
+                    }
+                }) {
+                    sortByDateButton()
+                }
+                Button(action: {
+                    withAnimation {
+                        switch documentsStore.sorting {
+                        case .name(ascending: let ascending):
+                            documentsStore.sorting = .name(ascending: !ascending)
+                        case .date(ascending: _):
+                            documentsStore.sorting = .name(ascending: true)
+                        }
+                        documentsStore.setSorting(documentsStore.sorting)
+                    }
+                }) {
+                    sortByNameButton()
+                }
+            } label: {
                 Image(systemName: "arrow.up.arrow.down")
                     .font(.title2)
                     .foregroundColor(.blue)
@@ -91,7 +153,7 @@ struct FolderView: View {
     private func navigationDestination(for document: Document) -> AnyView {
         if document.isDirectory {
             let relativePath = documentsStore.relativePath(for: document)
-            return AnyView(FolderView(documentsStore: DocumentsStore(relativePath: relativePath), title: document.name))
+            return AnyView(FolderView(documentsStore: DocumentsStore(relativePath: relativePath, sorting: documentsStore.sorting), title: document.name))
         } else {
             return AnyView(DocumentDetails(document: document))
         }
@@ -146,7 +208,7 @@ struct FolderView: View {
 struct FolderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            FolderView(isInputingName: true, documentsStore: DocumentsStore_Preview(relativePath: "/"), title: "Docs")
+            FolderView(isInputingName: true, documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
         }
     }
 }
