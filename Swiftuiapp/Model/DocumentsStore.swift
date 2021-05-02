@@ -27,33 +27,34 @@ class DocumentsStore: ObservableObject {
             return []
         }
 
-        var allDocuments: [Document] = []
+        var allDocuments: [Document?] = []
         do {
-            let allFiles = try FileManager.default.contentsOfDirectory(atPath: docDirectory.path)
+            let attrKeys: [URLResourceKey] = [.nameKey, .fileSizeKey, .contentModificationDateKey, .creationDateKey, .isDirectoryKey]
+            let allFiles = try FileManager.default.contentsOfDirectory(at: docDirectory,
+                                                                       includingPropertiesForKeys: attrKeys,
+                                                                       options: [.skipsHiddenFiles])
 
-            allDocuments = allFiles.map { (fileName) -> Document in
-                var url = docDirectory
-                url = url.appendingPathComponent(fileName)
-                var created, modified: Date?
-                var size: NSNumber = 0
-                var isDirectory = false
+            allDocuments = allFiles.map { (url) -> Document? in
+                var document: Document? = nil
                 do {
-                    let attr = try FileManager.default.attributesOfItem(atPath: url.relativePath)
-                    created = attr[FileAttributeKey.creationDate] as? Date
-                    modified = attr[FileAttributeKey.modificationDate] as? Date
-                    size = attr[FileAttributeKey.size] as? NSNumber ?? 0
-                    isDirectory = attr[FileAttributeKey.type] as? FileAttributeType == FileAttributeType.typeDirectory
+                    let attrVals = try url.resourceValues(forKeys: Set(attrKeys))
+                    let fileName = attrVals.name ?? ""
+                    let created = attrVals.creationDate
+                    let modified = attrVals.contentModificationDate
+                    let size = NSNumber(value: attrVals.fileSize ?? 0)
+                    let isDirectory = attrVals.isDirectory ?? false
+
+                    document = Document(name: fileName, url: url, size: size, created: created, modified: modified, isDirectory: isDirectory)
                 } catch let error as NSError {
                     NSLog("Error reading file attr: \(error)")
                 }
-
-                return Document(name: fileName, url: url, size: size, created: created, modified: modified, isDirectory: isDirectory)
+                return document
             }
         } catch let error as NSError {
             NSLog("Error traversing files directory: \(error)")
         }
 
-        return allDocuments
+        return allDocuments.compactMap { $0 }
     }
 
     func reload() {
