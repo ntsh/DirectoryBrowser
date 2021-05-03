@@ -1,10 +1,5 @@
 import SwiftUI
 
-enum SortOption: Equatable {
-    case date(ascending: Bool)
-    case name(ascending: Bool)
-}
-
 struct FolderView: View {
     @State var isPresentedPicker = false
     @State var isInputingName = false
@@ -62,26 +57,28 @@ struct FolderView: View {
             Menu {
                 Button(action: {
                     withAnimation {
+                        let newSorting: SortOption
                         switch documentsStore.sorting {
                         case .date(ascending: let ascending):
-                            documentsStore.sorting = .date(ascending: !ascending)
+                            newSorting = .date(ascending: !ascending)
                         case .name(ascending: _):
-                            documentsStore.sorting = .date(ascending: true)
+                            newSorting = .date(ascending: true)
                         }
-                        documentsStore.setSorting(documentsStore.sorting)
+                        documentsStore.setSorting(newSorting)
                     }
                 }) {
                     sortByDateButton()
                 }
                 Button(action: {
                     withAnimation {
+                        let newSorting: SortOption
                         switch documentsStore.sorting {
                         case .name(ascending: let ascending):
-                            documentsStore.sorting = .name(ascending: !ascending)
+                            newSorting = .name(ascending: !ascending)
                         case .date(ascending: _):
-                            documentsStore.sorting = .name(ascending: true)
+                            newSorting = .name(ascending: true)
                         }
-                        documentsStore.setSorting(documentsStore.sorting)
+                        documentsStore.setSorting(newSorting)
                     }
                 }) {
                     sortByNameButton()
