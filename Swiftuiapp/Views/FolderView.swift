@@ -23,32 +23,12 @@ struct FolderView: View {
     }
 
     fileprivate func sortByDateButton() -> some View {
-        var sortImage: String = ""
-
-        switch documentsStore.sorting {
-        case .date(ascending: true):
-            sortImage = "arrow.up"
-        case .date(ascending: false):
-            sortImage = "arrow.down"
-        case .name(ascending: _):
-            sortImage = ""
-        }
-
+        let sortImage: String = documentsStore.sorting.dateButtonIcon()
         return Label("Sort by date", systemImage: sortImage)
     }
 
     fileprivate func sortByNameButton() -> some View {
-        var sortImage: String = ""
-
-        switch documentsStore.sorting {
-        case .name(ascending: true):
-            sortImage = "arrow.up"
-        case .name(ascending: false):
-            sortImage = "arrow.down"
-        case .date(ascending: _):
-            sortImage = ""
-        }
-
+        let sortImage: String =  documentsStore.sorting.nameButtonIcon()
         return Label("Sort by name", systemImage: sortImage)
     }
 
@@ -57,28 +37,14 @@ struct FolderView: View {
             Menu {
                 Button(action: {
                     withAnimation {
-                        let newSorting: SortOption
-                        switch documentsStore.sorting {
-                        case .date(ascending: let ascending):
-                            newSorting = .date(ascending: !ascending)
-                        case .name(ascending: _):
-                            newSorting = .date(ascending: true)
-                        }
-                        documentsStore.setSorting(newSorting)
+                        documentsStore.setSorting(documentsStore.sorting.toggleToDateSortOption())
                     }
                 }) {
                     sortByDateButton()
                 }
                 Button(action: {
                     withAnimation {
-                        let newSorting: SortOption
-                        switch documentsStore.sorting {
-                        case .name(ascending: let ascending):
-                            newSorting = .name(ascending: !ascending)
-                        case .date(ascending: _):
-                            newSorting = .name(ascending: true)
-                        }
-                        documentsStore.setSorting(newSorting)
+                        documentsStore.setSorting(documentsStore.sorting.toggleToNameSortOption())
                     }
                 }) {
                     sortByNameButton()
