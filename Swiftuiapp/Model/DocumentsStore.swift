@@ -15,6 +15,10 @@ class DocumentsStore: ObservableObject {
             return nil
         }
 
+        guard relativePath.count > 0 else {
+            return docDirectory
+        }
+
         return docDirectory.appendingPathComponent(relativePath)
     }
 
@@ -146,6 +150,20 @@ class DocumentsStore: ObservableObject {
     func relativePath(for document: Document) -> String {
         let url = URL(fileURLWithPath: document.name, isDirectory: document.isDirectory, relativeTo: URL(fileURLWithPath: relativePath, isDirectory: true)).path
         return url
+    }
+
+    func rename(document: Document, newName: String) throws {
+        guard let docDirectory = workingDirectory else {
+            return
+        }
+
+        let newUrl = docDirectory.appendingPathComponent(newName, isDirectory: document.isDirectory)
+        do {
+            try FileManager.default.moveItem(at: document.url, to: newUrl)
+            reload()
+        } catch CocoaError.fileWriteFileExists {
+            throw DocumentsStoreError.fileExists
+        }
     }
 }
 

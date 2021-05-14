@@ -2,7 +2,9 @@ import SwiftUI
 
 struct FolderView: View {
     @State var isPresentedPicker = false
-    @State var isInputingName = false
+    @State var isInputingNewFolderName = false
+    @State var isInputingRenameDocName = false
+    @State var documentToRename: Document?
     @State var documentNameErrorMessage: String?
 
     @ObservedObject var documentsStore: DocumentsStore
@@ -10,11 +12,17 @@ struct FolderView: View {
 
     var listSectionHeader: some View {
         HStack {
-            if isInputingName {
+            if isInputingNewFolderName {
                 DocumentNameInputView(errorMessage: $documentNameErrorMessage, heading: "Enter Folder Name") {
                     finishEnteringDocName()
                 } setName: { (name) in
                     createFolder(name: name)
+                }
+            } else if isInputingRenameDocName {
+                DocumentNameInputView(errorMessage: $documentNameErrorMessage, heading: "Enter new name") {
+                    finishEnteringDocName()
+                } setName: { (name) in
+                    renameDocument(name: name)
                 }
             } else {
                 Text("All").background(Color.clear)
@@ -91,6 +99,20 @@ struct FolderView: View {
                         NavigationLink(destination: navigationDestination(for: document)) {
                             DocumentRow(document: document)
                                 .padding(.vertical)
+                                .contextMenu {
+                                    Button(action: { deleteDocument(document) }) {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                    Button(action: { editDocumentName(document)}) {
+                                        Label("Rename", systemImage: "pencil")
+                                    }
+                                    Button(action: {}) {
+                                        Label("Move", systemImage: "folder.badge.gear")
+                                    }
+                                    Button(action: {}) {
+                                        Label("Share", systemImage: "square.and.arrow.up")
+                                    }
+                                }
                         }
                     }
                     .onDelete(perform: deleteItems)
@@ -134,7 +156,7 @@ struct FolderView: View {
     func didClickCreateFolder() {
         NSLog("Did click create folder")
         withAnimation {
-            isInputingName = true
+            isInputingNewFolderName = true
         }
     }
 
@@ -154,16 +176,41 @@ struct FolderView: View {
 
     fileprivate func finishEnteringDocName() {
         withAnimation {
-            isInputingName = false
+            isInputingNewFolderName = false
+            isInputingRenameDocName = false
             documentNameErrorMessage = nil
         }
     }
 
     private func deleteItems(offsets: IndexSet) {
+        offsets
+            .map { documentsStore.documents[$0] }
+            .forEach { deleteDocument($0) }
+    }
+
+    private func deleteDocument(_ document: Document) {
         withAnimation {
-            offsets
-                .map { documentsStore.documents[$0] }
-                .forEach { documentsStore.delete($0) }
+            documentsStore.delete(document)
+        }
+    }
+
+    private func editDocumentName(_ document: Document) {
+        withAnimation {
+            isInputingRenameDocName = true
+            documentToRename = document
+        }
+    }
+
+    private func renameDocument(name: String) {
+        do {
+            try documentsStore.rename(document: documentToRename!, newName: name)
+            finishEnteringDocName()
+        } catch DocumentsStoreError.fileExists {
+            withAnimation {
+                documentNameErrorMessage = "Document already exists"
+            }
+        } catch {
+            documentNameErrorMessage = "Unexpected error"
         }
     }
 }
@@ -171,7 +218,7 @@ struct FolderView: View {
 struct FolderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            FolderView(isInputingName: true, documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
+            FolderView(isInputingNewFolderName: true, documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
         }
     }
 }
