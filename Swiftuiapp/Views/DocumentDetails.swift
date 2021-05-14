@@ -21,14 +21,14 @@ struct DocumentDetails: View {
                     Spacer()
                 }
 
-                AttributeView(key: "Size", value: DocumentSizeFormatter.string(fromByteCount: Int64(truncating: document.size)))
+                DocumentAttributeRow(key: "Size", value: DocumentSizeFormatter.string(fromByteCount: Int64(truncating: document.size)))
 
                 if let created = document.created {
-                    AttributeView(key: "Created", value: ShortTimestampFormatter.string(from: created))
+                    DocumentAttributeRow(key: "Created", value: ShortTimestampFormatter.string(from: created))
                 }
 
                 if let modified = document.modified {
-                    AttributeView(key: "Modified", value: ShortTimestampFormatter.string(from: modified))
+                    DocumentAttributeRow(key: "Modified", value: ShortTimestampFormatter.string(from: modified))
                 }
             }
             .listStyle(InsetGroupedListStyle())
@@ -50,18 +50,5 @@ struct DocumentDetails_Previews: PreviewProvider {
         DocumentDetails(document: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)).documents[1])
             .preferredColorScheme(.dark)
             .environment(\.sizeCategory, .large)
-    }
-}
-
-struct AttributeView: View {
-    var key, value: String
-
-    var body: some View {
-        HStack {
-            Text(key)
-            Spacer()
-            Text(value)
-                .multilineTextAlignment(.trailing)
-        }
     }
 }
