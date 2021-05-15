@@ -3,16 +3,18 @@ import XCTest
 
 class DocumentDetailsViewModelTests: XCTestCase {
 
+    private var document = Document(id: UUID(),
+                                    name: "Test.pdf",
+                                    url: URL(fileURLWithPath: "/doc/Test.pdf"),
+                                    size: NSNumber(integerLiteral: 1000),
+                                    created: Date(timeIntervalSince1970: 0),
+                                    modified: Date(timeIntervalSince1970: 1000),
+                                    isDirectory: false)
+
     private var viewModel: DocumentDetailsViewModel!
 
     override func setUpWithError() throws {
-        viewModel = DocumentDetailsViewModel(document: Document(id: UUID(),
-                                                                name: "Test.pdf",
-                                                                url: URL(fileURLWithPath: "/doc/Test.pdf"),
-                                                                size: NSNumber(integerLiteral: 1000),
-                                                                created: Date(timeIntervalSince1970: 0),
-                                                                modified: Date(timeIntervalSince1970: 1000),
-                                                                isDirectory: false))
+        viewModel = DocumentDetailsViewModel(document: document)
     }
 
     func testDocumentName() {
@@ -33,6 +35,18 @@ class DocumentDetailsViewModelTests: XCTestCase {
 
     func testDocumentModified() {
         XCTAssertEqual(viewModel.documentModified, "1/1/70, 1:16 AM")
+    }
+
+    func testDocumentCreatedIsNil() {
+        document.created = nil
+        viewModel = DocumentDetailsViewModel(document: document)
+        XCTAssertNil(viewModel.documentCreated)
+    }
+
+    func testDocumentModifiedIsNil() {
+        document.modified = nil
+        viewModel = DocumentDetailsViewModel(document: document)
+        XCTAssertNil(viewModel.documentModified)
     }
 
     func testShowPreview() {
