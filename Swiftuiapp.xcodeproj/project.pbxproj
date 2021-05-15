@@ -18,6 +18,7 @@
 		CD52026A2564901F005D463C /* SwiftuiappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5202692564901F005D463C /* SwiftuiappTests.swift */; };
 		CD5202752564901F005D463C /* SwiftuiappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5202742564901F005D463C /* SwiftuiappUITests.swift */; };
 		CD535B4D2565CD45003AA085 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD535B4C2565CD45003AA085 /* HomeView.swift */; };
+		CD569365264F91E000B1D509 /* DocumentDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD569364264F91E000B1D509 /* DocumentDetailsViewModel.swift */; };
 		CD6DD4BE262A2A03003CD1F6 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DD4BD262A2A03003CD1F6 /* Document.swift */; };
 		CD6DD4C3262A2AC8003CD1F6 /* DocumentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DD4C2262A2AC8003CD1F6 /* DocumentsStore.swift */; };
 		CD6DD4C9262A3586003CD1F6 /* DocumentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DD4C8262A3586003CD1F6 /* DocumentRow.swift */; };
@@ -65,6 +66,7 @@
 		CD5202742564901F005D463C /* SwiftuiappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftuiappUITests.swift; sourceTree = "<group>"; };
 		CD5202762564901F005D463C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD535B4C2565CD45003AA085 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CD569364264F91E000B1D509 /* DocumentDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDetailsViewModel.swift; sourceTree = "<group>"; };
 		CD6DD4BD262A2A03003CD1F6 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		CD6DD4C2262A2AC8003CD1F6 /* DocumentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsStore.swift; sourceTree = "<group>"; };
 		CD6DD4C8262A3586003CD1F6 /* DocumentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRow.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				CD5202602564901F005D463C /* Info.plist */,
 				CD5202522564901B005D463C /* SwiftuiappApp.swift */,
 				CD2F441425671C0400C9F244 /* Views */,
+				CD569363264F919300B1D509 /* ViewModels */,
 				CD2F441325671BF200C9F244 /* Pickers */,
 				CD2F441E25671C2F00C9F244 /* Model */,
 				CD17BA49263052380066BA12 /* Utils */,
@@ -213,6 +216,14 @@
 				CD5202762564901F005D463C /* Info.plist */,
 			);
 			path = SwiftuiappUITests;
+			sourceTree = "<group>";
+		};
+		CD569363264F919300B1D509 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CD569364264F91E000B1D509 /* DocumentDetailsViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,6 +369,7 @@
 				CDA4EF4B2635F2B700AEEE46 /* DocumentNameInputView.swift in Sources */,
 				CD6DD4C3262A2AC8003CD1F6 /* DocumentsStore.swift in Sources */,
 				CDB30BDA263EFF2500B5396E /* SortOption.swift in Sources */,
+				CD569365264F91E000B1D509 /* DocumentDetailsViewModel.swift in Sources */,
 				CD9871C0262CD49900CB282E /* ThumbnailView.swift in Sources */,
 				CD9871BB262CCF0F00CB282E /* DocumentPreviewController.swift in Sources */,
 				CD52025F2564901F005D463C /* Swiftuiapp.xcdatamodeld in Sources */,

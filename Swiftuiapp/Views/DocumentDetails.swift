@@ -1,43 +1,42 @@
 import SwiftUI
 
 struct DocumentDetails: View {
-    @State private var showingPreview = false
-    var document: Document
+    @ObservedObject var viewModel: DocumentDetailsViewModel
 
     var body: some View {
         VStack(alignment: .center, spacing: 12) {
             List {
-                ThumbnailView(url: document.url)
+                ThumbnailView(url: viewModel.documentUrl)
                     .padding(.vertical)
                     .onTapGesture {
-                        self.showingPreview = true
+                        viewModel.showPreview()
                     }
 
                 HStack {
                     Spacer()
-                    Text(document.name)
+                    Text(viewModel.documentName)
                         .multilineTextAlignment(.center)
                         .font(.headline)
                     Spacer()
                 }
 
-                DocumentAttributeRow(key: "Size", value: DocumentSizeFormatter.string(fromByteCount: Int64(truncating: document.size)))
+                DocumentAttributeRow(key: "Size", value: viewModel.documentSize)
 
-                if let created = document.created {
-                    DocumentAttributeRow(key: "Created", value: ShortTimestampFormatter.string(from: created))
+                if let created = viewModel.documentCreated {
+                    DocumentAttributeRow(key: "Created", value: created)
                 }
 
-                if let modified = document.modified {
-                    DocumentAttributeRow(key: "Modified", value: ShortTimestampFormatter.string(from: modified))
+                if let modified = viewModel.documentModified {
+                    DocumentAttributeRow(key: "Modified", value: modified)
                 }
             }
             .listStyle(InsetGroupedListStyle())
         }
-        .sheet(isPresented: $showingPreview) {
-            PreviewController(url: document.url, isPresented: self.$showingPreview)
+        .fullScreenCover(isPresented: $viewModel.showingPreview) {
+            PreviewController(url: viewModel.documentUrl, isPresented: $viewModel.showingPreview)
         }
         .navigationBarItems(trailing: HStack {
-            Button(action: { self.showingPreview = true }) {
+            Button(action: { viewModel.showPreview() }) {
                 Image(systemName: "play.fill")
                     .font(.largeTitle)
             }.foregroundColor(.blue)
@@ -47,7 +46,7 @@ struct DocumentDetails: View {
 
 struct DocumentDetails_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentDetails(document: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)).documents[1])
+        DocumentDetails(viewModel: DocumentDetailsViewModel(document: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)).documents[1]))
             .preferredColorScheme(.dark)
             .environment(\.sizeCategory, .large)
     }

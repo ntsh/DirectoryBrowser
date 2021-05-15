@@ -140,7 +140,7 @@ struct FolderView: View {
             let relativePath = documentsStore.relativePath(for: document)
             return AnyView(FolderView(documentsStore: DocumentsStore(relativePath: relativePath, sorting: documentsStore.sorting), title: document.name))
         } else {
-            return AnyView(DocumentDetails(document: document))
+            return AnyView(DocumentDetails(viewModel: DocumentDetailsViewModel(document: document)))
         }
     }
 
