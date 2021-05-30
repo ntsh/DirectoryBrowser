@@ -9,6 +9,7 @@ class DocumentsStore: ObservableObject {
     @Published var sorting: SortOption = .date(ascending: false)
 
     private var relativePath: String
+    private let attrKeys: [URLResourceKey] = [.nameKey, .fileSizeKey, .contentModificationDateKey, .creationDateKey, .isDirectoryKey]
 
     private var workingDirectory: URL? {
         guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
@@ -29,40 +30,39 @@ class DocumentsStore: ObservableObject {
         loadDocuments()
     }
 
+    fileprivate func document(from url: URL) -> Document? {
+        var document: Document? = nil
+        do {
+            let attrVals = try url.resourceValues(forKeys: Set(attrKeys))
+            let fileName = attrVals.name ?? ""
+            let created = attrVals.creationDate
+            let modified = attrVals.contentModificationDate
+            let size = NSNumber(value: attrVals.fileSize ?? 0)
+            let isDirectory = attrVals.isDirectory ?? false
+
+            document = Document(name: fileName, url: url, size: size, created: created, modified: modified, isDirectory: isDirectory)
+        } catch let error as NSError {
+            NSLog("Error reading file attr: \(error)")
+        }
+        return document
+    }
+
     func loadDocuments() {
         guard let docDirectory = workingDirectory else {
             documents = []
             return
         }
 
-        var allDocuments: [Document?] = []
         do {
-            let attrKeys: [URLResourceKey] = [.nameKey, .fileSizeKey, .contentModificationDateKey, .creationDateKey, .isDirectoryKey]
             let allFiles = try FileManager.default.contentsOfDirectory(at: docDirectory,
                                                                        includingPropertiesForKeys: attrKeys,
                                                                        options: [.skipsHiddenFiles])
 
-            allDocuments = allFiles.map { (url) -> Document? in
-                var document: Document? = nil
-                do {
-                    let attrVals = try url.resourceValues(forKeys: Set(attrKeys))
-                    let fileName = attrVals.name ?? ""
-                    let created = attrVals.creationDate
-                    let modified = attrVals.contentModificationDate
-                    let size = NSNumber(value: attrVals.fileSize ?? 0)
-                    let isDirectory = attrVals.isDirectory ?? false
-
-                    document = Document(name: fileName, url: url, size: size, created: created, modified: modified, isDirectory: isDirectory)
-                } catch let error as NSError {
-                    NSLog("Error reading file attr: \(error)")
-                }
-                return document
-            }
+            documents = allFiles.map { document(from: $0) }.compactMap{ $0 }
         } catch let error as NSError {
             NSLog("Error traversing files directory: \(error)")
         }
 
-        documents = allDocuments.compactMap { $0 }
         sort()
     }
 
@@ -110,7 +110,10 @@ class DocumentsStore: ObservableObject {
         let target = docDirectory.appendingPathComponent(name, isDirectory: true)
         do {
             try FileManager.default.createDirectory(at: target, withIntermediateDirectories: false, attributes: nil)
-            reload()
+            if let folder = document(from: target) {
+                documents.insert(folder, at: 0)
+                sort()
+            }
         } catch CocoaError.fileWriteFileExists {
             throw DocumentsStoreError.fileExists
         }
@@ -129,6 +132,11 @@ class DocumentsStore: ObservableObject {
 
             do {
                 try FileManager.default.copyItem(at: url, to: suitableUrl)
+
+                if let document = document(from: suitableUrl) {
+                    documents.insert(document, at: documents.endIndex)
+                    sort()
+                }
             } catch CocoaError.fileWriteFileExists {
                 retry = true
 
@@ -160,7 +168,18 @@ class DocumentsStore: ObservableObject {
         let newUrl = docDirectory.appendingPathComponent(newName, isDirectory: document.isDirectory)
         do {
             try FileManager.default.moveItem(at: document.url, to: newUrl)
-            reload()
+
+            // Find current document in documents array and update the values
+            if let indexToUpdate = documents.firstIndex(where: { $0.url == document.url }) {
+                var documentToUpdate = documents[indexToUpdate]
+                documents.remove(at: indexToUpdate)
+
+                documentToUpdate.url = newUrl
+                documentToUpdate.name = newName
+                documents.insert(documentToUpdate, at: 0)
+
+                sort()
+            }
         } catch CocoaError.fileWriteFileExists {
             throw DocumentsStoreError.fileExists
         }

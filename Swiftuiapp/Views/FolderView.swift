@@ -125,7 +125,6 @@ struct FolderView: View {
             .sheet(isPresented:  $isPresentedPicker, onDismiss: dismissPicker) {
                 DocumentPicker(documentsStore: documentsStore) {
                     NSLog("Docupicker callback")
-                    documentsStore.reload()
                 }
             }
 
