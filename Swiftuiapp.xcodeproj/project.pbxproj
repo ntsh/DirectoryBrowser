@@ -29,6 +29,7 @@
 		CD9871BB262CCF0F00CB282E /* DocumentPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9871BA262CCF0F00CB282E /* DocumentPreviewController.swift */; };
 		CD9871C0262CD49900CB282E /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9871BF262CD49900CB282E /* ThumbnailView.swift */; };
 		CD9F0600264ECED400415152 /* DocumentAttributeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F05FF264ECED400415152 /* DocumentAttributeRow.swift */; };
+		CDA1ECEE2665267E005BFB90 /* SortComparatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA1ECED2665267E005BFB90 /* SortComparatorTests.swift */; };
 		CDA4EF4B2635F2B700AEEE46 /* DocumentNameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */; };
 		CDA4EF5326370F1A00AEEE46 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF5226370F1A00AEEE46 /* FolderView.swift */; };
 		CDB30BDA263EFF2500B5396E /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB30BD9263EFF2500B5396E /* SortOption.swift */; };
@@ -80,6 +81,7 @@
 		CD9871BA262CCF0F00CB282E /* DocumentPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPreviewController.swift; sourceTree = "<group>"; };
 		CD9871BF262CD49900CB282E /* ThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
 		CD9F05FF264ECED400415152 /* DocumentAttributeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentAttributeRow.swift; sourceTree = "<group>"; };
+		CDA1ECED2665267E005BFB90 /* SortComparatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortComparatorTests.swift; sourceTree = "<group>"; };
 		CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentNameInputView.swift; sourceTree = "<group>"; };
 		CDA4EF5226370F1A00AEEE46 /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
 		CDB30BD9263EFF2500B5396E /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			children = (
 				CD56936A264FA36100B1D509 /* ShortTimestampFormatterTests.swift */,
 				CD56936C264FA51A00B1D509 /* DocumentSizeFormatterTests.swift */,
+				CDA1ECED2665267E005BFB90 /* SortComparatorTests.swift */,
 			);
 			path = UtilsTests;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 				CD569367264F934100B1D509 /* DocumentDetailsViewModelTests.swift in Sources */,
 				CD56936B264FA36100B1D509 /* ShortTimestampFormatterTests.swift in Sources */,
 				CD52026A2564901F005D463C /* SwiftuiappTests.swift in Sources */,
+				CDA1ECEE2665267E005BFB90 /* SortComparatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
