@@ -6,13 +6,14 @@ enum DocumentsStoreError: Error {
 
 class DocumentsStore: ObservableObject {
     @Published var documents: [Document] = []
-    @Published var sorting: SortOption = .date(ascending: false)
+    @Published var sorting: SortOption = .date(ascending: false) //TODO: Get it from userdefaults
 
     private var relativePath: String
+    private var documentManager: DocumentManagerProtocol
     private let attrKeys: [URLResourceKey] = [.nameKey, .fileSizeKey, .contentModificationDateKey, .creationDateKey, .isDirectoryKey]
 
     private var workingDirectory: URL? {
-        guard let docDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+        guard let docDirectory = documentManager.documentDirectory() else {
             return nil
         }
 
@@ -23,9 +24,10 @@ class DocumentsStore: ObservableObject {
         return docDirectory.appendingPathComponent(relativePath)
     }
 
-    init(relativePath: String, sorting: SortOption) {
+    init(relativePath: String, sorting: SortOption, documentsSource: DocumentManagerProtocol = DocumentManager()) {
         self.relativePath = relativePath
         self.sorting = sorting
+        self.documentManager = documentsSource
 
         loadDocuments()
     }
@@ -54,10 +56,7 @@ class DocumentsStore: ObservableObject {
         }
 
         do {
-            let allFiles = try FileManager.default.contentsOfDirectory(at: docDirectory,
-                                                                       includingPropertiesForKeys: attrKeys,
-                                                                       options: [.skipsHiddenFiles])
-
+            let allFiles = try documentManager.contentsOfDirectory(at: docDirectory)
             documents = allFiles.map { document(from: $0) }.compactMap{ $0 }
         } catch let error as NSError {
             NSLog("Error traversing files directory: \(error)")
@@ -82,7 +81,7 @@ class DocumentsStore: ObservableObject {
 
     func delete(_ document: Document) {
         do {
-            try FileManager.default.removeItem(at: document.url)
+            try documentManager.removeItem(at: document.url)
             // Find current document and remove from documents array
             if let index = documents.firstIndex(where: { $0.url == document.url }) {
                 documents.remove(at: index)
@@ -99,7 +98,7 @@ class DocumentsStore: ObservableObject {
 
         let target = docDirectory.appendingPathComponent(name, isDirectory: true)
         do {
-            try FileManager.default.createDirectory(at: target, withIntermediateDirectories: false, attributes: nil)
+            try documentManager.createDirectory(at: target)
             if let folder = document(from: target) {
                 documents.insert(folder, at: 0)
                 sort()
@@ -121,7 +120,7 @@ class DocumentsStore: ObservableObject {
             retry = false
 
             do {
-                try FileManager.default.copyItem(at: url, to: suitableUrl)
+                try documentManager.copyItem(at: url, to: suitableUrl)
 
                 if let document = document(from: suitableUrl) {
                     documents.insert(document, at: documents.endIndex)
@@ -157,7 +156,7 @@ class DocumentsStore: ObservableObject {
 
         let newUrl = docDirectory.appendingPathComponent(newName, isDirectory: document.isDirectory)
         do {
-            try FileManager.default.moveItem(at: document.url, to: newUrl)
+            try documentManager.moveItem(at: document.url, to: newUrl)
 
             // Find current document in documents array and update the values
             if let indexToUpdate = documents.firstIndex(where: { $0.url == document.url }) {
