@@ -71,17 +71,7 @@ class DocumentsStore: ObservableObject {
     }
 
     fileprivate func sort() {
-        documents.sort { (doc1, doc2) -> Bool in
-            switch sorting {
-            case .date(ascending: let ascending):
-                guard let date1 = doc1.modified, let date2 = doc2.modified else {
-                    return ascending
-                }
-                return (date1.compare(date2) == .orderedAscending) == ascending
-            case .name(ascending: let ascending):
-                return (doc1.name.caseInsensitiveCompare(doc2.name) == .orderedAscending) == ascending
-            }
-        }
+        documents.sort(by: sorting.sortingComparator())
     }
 
     func setSorting(_ sorting: SortOption) {
