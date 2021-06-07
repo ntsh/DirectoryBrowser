@@ -97,7 +97,7 @@ struct FolderView: View {
                 Section(header: listSectionHeader) {
                     ForEach(documentsStore.documents) { document in
                         NavigationLink(destination: navigationDestination(for: document)) {
-                            DocumentRow(document: document)
+                            DocumentRow(viewModel: DocumentDetailsViewModel(document: document))
                                 .padding(.vertical)
                                 .contextMenu {
                                     Button(action: { deleteDocument(document) }) {
