@@ -1,5 +1,4 @@
 import SwiftUI
-import QuickLook
 
 struct ThumbnailView: View {
     let url: URL
@@ -9,7 +8,7 @@ struct ThumbnailView: View {
     var body: some View {
         Group {
             if let thumbnail = viewModel.thumbnail {
-                Image(thumbnail, scale: (UIScreen.main.scale), label: Text("Thumbnail"))
+                Image(thumbnail, scale: (UIScreen.main.scale), label: Text(viewModel.imageLabel))
                     .resizable()
                     .scaledToFit()
                     .aspectRatio(contentMode: .fill)
@@ -18,28 +17,6 @@ struct ThumbnailView: View {
                     .onAppear(perform: {
                         viewModel.generateThumbnail(url)
                     })
-            }
-        }
-    }
-}
-
-extension ThumbnailView {
-    class ThumbnailViewModel: ObservableObject {
-        @Published var thumbnail: CGImage?
-
-        func generateThumbnail(_ url: URL) {
-            let size: CGSize = CGSize(width: 400, height: 400)
-            let request = QLThumbnailGenerator.Request(fileAt: url, size: size, scale: (UIScreen.main.scale), representationTypes: .all)
-            let generator = QLThumbnailGenerator.shared
-
-            generator.generateRepresentations(for: request) { (thumbImage, type, error) in
-                DispatchQueue.main.async {
-                    if thumbImage == nil || error != nil {
-                        // TODO: Default icon
-                    } else {
-                        self.thumbnail = thumbImage!.cgImage
-                    }
-                }
             }
         }
     }
