@@ -50,23 +50,26 @@ struct PhotoPicker: UIViewControllerRepresentable {
 
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                    if let image = image as? UIImage {
-                        // save image to temp location and pass the url to documentsstore
-                        let name = itemProvider.suggestedName
-
-                        let tempUrl = temporaryDirectory.appendingPathComponent(name ?? UUID().uuidString).appendingPathExtension("png")
-                        if let data = image.pngData() {
-                            FileManager.default.createFile(atPath: tempUrl.relativePath, contents: data, attributes: nil)
-                            self.importFile(from: tempUrl)
-                            try? FileManager.default.removeItem(at: tempUrl)
-                        }
+                    guard
+                        error == nil,
+                        let image = image as? UIImage,
+                        let imageData = image.pngData()
+                    else {
+                        return
                     }
+
+                    let name = itemProvider.suggestedName
+                    let tempUrl = temporaryDirectory.appendingPathComponent(name ?? UUID().uuidString).appendingPathExtension("png")
+                    FileManager.default.createFile(atPath: tempUrl.relativePath, contents: imageData, attributes: nil)
+
+                    self.importFile(from: tempUrl)
+
+                    try? FileManager.default.removeItem(at: tempUrl)
                 }
             } else { // video
                 itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { url, error in
-                    if let url = url {
-                        self.importFile(from: url)
-                    }
+                    guard let url = url, error == nil else { return }
+                    self.importFile(from: url)
                 }
             }
         }
