@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FolderView: View {
     @State var isPresentedPicker = false
+    @State var isPresentedPhotoPicker = false
     @State var isInputingNewFolderName = false
     @State var isInputingRenameDocName = false
     @State var documentToRename: Document?
@@ -69,7 +70,7 @@ struct FolderView: View {
                 Button(action: { }) {
                     Label("Scan", systemImage: "doc.text.fill.viewfinder")
                 }
-                Button(action: { }) {
+                Button(action: didClickImportPhoto) {
                     Label("Import Photo", systemImage: "photo.fill.on.rectangle.fill")
                 }
                 Button(action: didClickCreateFolder) {
@@ -127,6 +128,11 @@ struct FolderView: View {
                     NSLog("Docupicker callback")
                 }
             }
+            .sheet(isPresented:  $isPresentedPhotoPicker, onDismiss: dismissPicker) {
+                PhotoPicker(documentsStore: documentsStore) {
+                    NSLog("Imagepicker callback")
+                }
+            }
 
             if (documentsStore.documents.isEmpty) {
                 emptyFolderView
@@ -148,8 +154,13 @@ struct FolderView: View {
         isPresentedPicker = true
     }
 
+    func didClickImportPhoto() {
+        isPresentedPhotoPicker = true
+    }
+
     func dismissPicker() {
-        self.isPresentedPicker = false
+        isPresentedPicker = false
+        isPresentedPhotoPicker = false
     }
 
     func didClickCreateFolder() {

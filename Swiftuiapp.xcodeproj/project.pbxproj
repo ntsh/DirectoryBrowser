@@ -37,6 +37,8 @@
 		CDA4EF5326370F1A00AEEE46 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF5226370F1A00AEEE46 /* FolderView.swift */; };
 		CDB30BDA263EFF2500B5396E /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB30BD9263EFF2500B5396E /* SortOption.swift */; };
 		CDBB6187266E7BA700DCA1F4 /* ThumbnailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBB6186266E7BA700DCA1F4 /* ThumbnailViewModel.swift */; };
+		CDF3BA3A26764D10004143DD /* PhotosUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF3BA3926764D10004143DD /* PhotosUI.framework */; };
+		CDF3BA3C267670B4004143DD /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF3BA3B267670B4004143DD /* PhotoPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +95,9 @@
 		CDA4EF5226370F1A00AEEE46 /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
 		CDB30BD9263EFF2500B5396E /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
 		CDBB6186266E7BA700DCA1F4 /* ThumbnailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailViewModel.swift; sourceTree = "<group>"; };
+		CDF3BA3726764CC8004143DD /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		CDF3BA3926764D10004143DD /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
+		CDF3BA3B267670B4004143DD /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDF3BA3A26764D10004143DD /* PhotosUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				CD2F442325671CB100C9F244 /* DocumentPicker.swift */,
+				CDF3BA3B267670B4004143DD /* PhotoPicker.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -181,6 +188,7 @@
 				CD5202682564901F005D463C /* SwiftuiappTests */,
 				CD5202732564901F005D463C /* SwiftuiappUITests */,
 				CD5202502564901B005D463C /* Products */,
+				CDF3BA3626764CC8004143DD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -272,6 +280,15 @@
 				CDA1ECF426655B28005BFB90 /* DocumentsStoreTests.swift */,
 			);
 			path = ModelTests;
+			sourceTree = "<group>";
+		};
+		CDF3BA3626764CC8004143DD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CDF3BA3926764D10004143DD /* PhotosUI.framework */,
+				CDF3BA3726764CC8004143DD /* Photos.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -415,6 +432,7 @@
 				CD535B4D2565CD45003AA085 /* HomeView.swift in Sources */,
 				CD2F442425671CB100C9F244 /* DocumentPicker.swift in Sources */,
 				CD6DD4BE262A2A03003CD1F6 /* Document.swift in Sources */,
+				CDF3BA3C267670B4004143DD /* PhotoPicker.swift in Sources */,
 				CDA4EF4B2635F2B700AEEE46 /* DocumentNameInputView.swift in Sources */,
 				CDBB6187266E7BA700DCA1F4 /* ThumbnailViewModel.swift in Sources */,
 				CD6DD4C3262A2AC8003CD1F6 /* DocumentsStore.swift in Sources */,
@@ -515,7 +533,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -570,7 +588,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -629,7 +647,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = SwiftuiappTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -650,7 +668,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = SwiftuiappTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
