@@ -10,13 +10,10 @@ class ThumbnailViewModel: ObservableObject {
         let request = QLThumbnailGenerator.Request(fileAt: url, size: size, scale: (UIScreen.main.scale), representationTypes: .all)
         let generator = QLThumbnailGenerator.shared
 
-        generator.generateRepresentations(for: request) { (thumbImage, type, error) in
-            DispatchQueue.main.async {
-                if thumbImage == nil || error != nil {
-                    // TODO: Default icon
-                } else {
-                    self.thumbnail = thumbImage!.cgImage
-                }
+        async {
+            let representation = try? await generator.generateBestRepresentation(for: request) // TODO: Default icon?
+            DispatchQueue.main.sync {
+                thumbnail = representation?.cgImage
             }
         }
     }
