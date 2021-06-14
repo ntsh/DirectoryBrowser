@@ -46,31 +46,15 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
 
         fileprivate func importFile(from itemProvider: NSItemProvider) {
-            let temporaryDirectory = FileManager.default.temporaryDirectory
+            var fileTypeIdentifier = UTType.image.identifier
 
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                    guard
-                        error == nil,
-                        let image = image as? UIImage,
-                        let imageData = image.pngData()
-                    else {
-                        return
-                    }
+            if itemProvider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+                fileTypeIdentifier = UTType.movie.identifier
+            }
 
-                    let name = itemProvider.suggestedName
-                    let tempUrl = temporaryDirectory.appendingPathComponent(name ?? UUID().uuidString).appendingPathExtension("png")
-                    FileManager.default.createFile(atPath: tempUrl.relativePath, contents: imageData, attributes: nil)
-
-                    self.importFile(from: tempUrl)
-
-                    try? FileManager.default.removeItem(at: tempUrl)
-                }
-            } else { // video
-                itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { url, error in
-                    guard let url = url, error == nil else { return }
-                    self.importFile(from: url)
-                }
+            itemProvider.loadFileRepresentation(forTypeIdentifier: fileTypeIdentifier) { url, error in
+                guard let url = url, error == nil else { return }
+                self.importFile(from: url)
             }
         }
 
