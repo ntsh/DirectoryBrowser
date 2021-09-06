@@ -15,19 +15,19 @@ class DocumentDetailsViewModel: ObservableObject {
     }
 
     var documentSize: String {
-        DocumentSizeFormatter.string(fromByteCount: Int64(truncating: document.size))
+        return Int(truncating: document.size).formatted(ByteCountFormatStyle())
     }
 
     var documentCreated: String? {
         if let created = document.created {
-            return ShortTimestampFormatter.string(from: created)
+            return created.formatted()
         }
         return nil
     }
 
     var documentModified: String? {
         if let modified = document.modified {
-            return ShortTimestampFormatter.string(from: modified)
+            return modified.formatted()
         }
         return nil
     }

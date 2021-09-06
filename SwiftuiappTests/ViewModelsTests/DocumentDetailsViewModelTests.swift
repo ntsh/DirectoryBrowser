@@ -30,11 +30,11 @@ class DocumentDetailsViewModelTests: XCTestCase {
     }
 
     func testDocumentCreated() {
-        XCTAssertEqual(viewModel.documentCreated, "1/1/70, 1:00 AM")
+        XCTAssertEqual(viewModel.documentCreated, "1/1/1970, 1:00 AM")
     }
 
     func testDocumentModified() {
-        XCTAssertEqual(viewModel.documentModified, "1/1/70, 1:16 AM")
+        XCTAssertEqual(viewModel.documentModified, "1/1/1970, 1:16 AM")
     }
 
     func testDocumentCreatedIsNil() {
