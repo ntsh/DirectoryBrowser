@@ -123,8 +123,10 @@ class DocumentsStore: ObservableObject {
                 try documentManager.copyItem(at: url, to: suitableUrl)
 
                 if let document = document(from: suitableUrl) {
-                    documents.insert(document, at: documents.endIndex)
-                    sort()
+                    DispatchQueue.main.async {
+                        self.documents.insert(document, at: self.documents.endIndex)
+                        self.sort()
+                    }
                 }
             } catch CocoaError.fileWriteFileExists {
                 retry = true

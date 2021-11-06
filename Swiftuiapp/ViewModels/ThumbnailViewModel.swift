@@ -10,7 +10,7 @@ class ThumbnailViewModel: ObservableObject {
         let request = QLThumbnailGenerator.Request(fileAt: url, size: size, scale: (UIScreen.main.scale), representationTypes: .all)
         let generator = QLThumbnailGenerator.shared
 
-        async {
+        Task {
             let representation = try? await generator.generateBestRepresentation(for: request) // TODO: Default icon?
             DispatchQueue.main.sync {
                 thumbnail = representation?.cgImage
