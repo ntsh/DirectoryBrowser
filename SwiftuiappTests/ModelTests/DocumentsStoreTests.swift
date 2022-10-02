@@ -2,6 +2,7 @@ import XCTest
 @testable import Swiftuiapp
 import SwiftUI
 
+@MainActor
 class DocumentsStoreTests: XCTestCase {
 
     private var documentsStore: DocumentsStore!
@@ -45,6 +46,7 @@ class DocumentsStoreTests: XCTestCase {
         mockFileManager = TempFileManager(docs: [doc1, doc2])
 
         documentsStore = DocumentsStore(relativePath: "/", sorting: .date(ascending: false), documentsSource: mockFileManager)
+        documentsStore.loadDocuments()
     }
 
     override func tearDownWithError() throws {

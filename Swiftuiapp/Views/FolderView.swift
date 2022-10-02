@@ -137,6 +137,8 @@ struct FolderView: View {
             if (documentsStore.documents.isEmpty) {
                 emptyFolderView
             }
+        }.onAppear {
+            documentsStore.loadDocuments()
         }
     }
 

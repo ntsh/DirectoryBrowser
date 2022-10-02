@@ -26,7 +26,7 @@ class DocumentDetailsViewModelTests: XCTestCase {
     }
 
     func testDocumentSize() {
-        XCTAssertEqual(viewModel.documentSize, "1 KB")
+        XCTAssertEqual(viewModel.documentSize, "1 kB")
     }
 
     func testDocumentCreated() {

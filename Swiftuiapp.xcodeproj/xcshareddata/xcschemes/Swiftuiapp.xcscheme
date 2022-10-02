@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Swiftuiapp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CD52026F2564901F005D463C"
+               BuildableName = "SwiftuiappUITests.xctest"
+               BlueprintName = "SwiftuiappUITests"
+               ReferencedContainer = "container:Swiftuiapp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -27,6 +41,7 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
+      language = "en"
       region = "US"
       codeCoverageEnabled = "YES">
       <CodeCoverageTargets>
@@ -46,16 +61,6 @@
                BlueprintIdentifier = "CD5202642564901F005D463C"
                BuildableName = "SwiftuiappTests.xctest"
                BlueprintName = "SwiftuiappTests"
-               ReferencedContainer = "container:Swiftuiapp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CD52026F2564901F005D463C"
-               BuildableName = "SwiftuiappUITests.xctest"
-               BlueprintName = "SwiftuiappUITests"
                ReferencedContainer = "container:Swiftuiapp.xcodeproj">
             </BuildableReference>
          </TestableReference>

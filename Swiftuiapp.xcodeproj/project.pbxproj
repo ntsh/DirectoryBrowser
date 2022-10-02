@@ -191,6 +191,7 @@
 				CDF3BA3626764CC8004143DD /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		CD5202502564901B005D463C /* Products */ = {
 			isa = PBXGroup;

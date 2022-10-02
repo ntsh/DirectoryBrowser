@@ -1,6 +1,7 @@
 import Foundation
 import QuickLook
 
+@MainActor
 class ThumbnailViewModel: ObservableObject {
     @Published var thumbnail: CGImage?
     @Published var imageLabel = "Thumbnail"
@@ -12,9 +13,7 @@ class ThumbnailViewModel: ObservableObject {
 
         Task {
             let representation = try? await generator.generateBestRepresentation(for: request) // TODO: Default icon?
-            DispatchQueue.main.sync {
-                thumbnail = representation?.cgImage
-            }
+            thumbnail = representation?.cgImage
         }
     }
 }

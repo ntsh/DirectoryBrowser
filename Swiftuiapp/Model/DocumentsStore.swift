@@ -4,6 +4,7 @@ enum DocumentsStoreError: Error {
     case fileExists
 }
 
+@MainActor
 class DocumentsStore: ObservableObject {
     @Published var documents: [Document] = []
     @Published var sorting: SortOption = .date(ascending: false) //TODO: Get it from userdefaults
@@ -28,8 +29,6 @@ class DocumentsStore: ObservableObject {
         self.relativePath = relativePath
         self.sorting = sorting
         self.documentManager = documentsSource
-
-        loadDocuments()
     }
 
     fileprivate func document(from url: URL) -> Document? {
@@ -123,10 +122,8 @@ class DocumentsStore: ObservableObject {
                 try documentManager.copyItem(at: url, to: suitableUrl)
 
                 if let document = document(from: suitableUrl) {
-                    DispatchQueue.main.async {
-                        self.documents.insert(document, at: self.documents.endIndex)
-                        self.sort()
-                    }
+                    self.documents.insert(document, at: self.documents.endIndex)
+                    self.sort()
                 }
             } catch CocoaError.fileWriteFileExists {
                 retry = true
