@@ -1,11 +1,16 @@
 import SwiftUI
 import QuickLook
 
-struct PreviewController: UIViewControllerRepresentable {
-    let url: URL
+public struct PreviewController: UIViewControllerRepresentable {
+    public let url: URL
     @Binding var isPresented: Bool
+    
+    public init(url: URL, isPresented: Binding<Bool>) {
+        self.url = url
+        _isPresented = isPresented
+    }
 
-    func makeUIViewController(context: Context) -> UINavigationController {
+    public func makeUIViewController(context: Context) -> UINavigationController {
         let controller = QLPreviewController()
         controller.dataSource = context.coordinator
         controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -16,32 +21,31 @@ struct PreviewController: UIViewControllerRepresentable {
         return navigationController
     }
 
-    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+    public func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
         return
     }
 
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         return Coordinator(parent: self)
     }
 
-    class Coordinator: QLPreviewControllerDataSource {
+    public class Coordinator: QLPreviewControllerDataSource {
         let parent: PreviewController
 
         init(parent: PreviewController) {
             self.parent = parent
         }
 
-        func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+        public func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
             return 1
         }
 
-        func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+        public func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
             return parent.url as NSURL
         }
 
         @objc func dismiss() {
             parent.isPresented = false
         }
-
     }
 }

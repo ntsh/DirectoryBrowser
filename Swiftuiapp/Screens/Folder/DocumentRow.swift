@@ -1,3 +1,4 @@
+import FilePreviews
 import SwiftUI
 
 struct DocumentRow: View {

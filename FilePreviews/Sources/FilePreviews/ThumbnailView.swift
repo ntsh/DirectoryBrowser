@@ -1,11 +1,15 @@
 import SwiftUI
 
-struct ThumbnailView: View {
-    let url: URL
+public struct ThumbnailView: View {
+    public let url: URL
 
     @StateObject var thumbnailer = Thumbnailer()
 
-    var body: some View {
+    public init(url: URL) {
+        self.url = url
+    }
+
+    public var body: some View {
         Group {
             if let thumbnail = thumbnailer.thumbnail {
                 Image(thumbnail, scale: (UIScreen.main.scale), label: Text(thumbnailer.imageLabel))

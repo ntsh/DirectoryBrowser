@@ -1,9 +1,14 @@
+import FilePreviews
 import SwiftUI
 
 struct DocumentDetails: View {
     var document: Document
 
     @State private var showingPreview = false
+
+    public init(document: Document) {
+        self.document = document
+    }
 
     var body: some View {
         VStack(alignment: .center, spacing: 12) {

@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		786745FF28EA28810077EA57 /* DocumentExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786745FE28EA28810077EA57 /* DocumentExtensionTests.swift */; };
+		78CD443A28EA358200E22E53 /* FilePreviews in Frameworks */ = {isa = PBXBuildFile; productRef = 78CD443928EA358200E22E53 /* FilePreviews */; };
 		CD17BA4B2630525C0066BA12 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD17BA4A2630525C0066BA12 /* Formatters.swift */; };
 		CD2F442425671CB100C9F244 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2F442325671CB100C9F244 /* DocumentPicker.swift */; };
 		CD5202532564901B005D463C /* SwiftuiappApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5202522564901B005D463C /* SwiftuiappApp.swift */; };
@@ -25,8 +26,6 @@
 		CD6DD4C3262A2AC8003CD1F6 /* DocumentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DD4C2262A2AC8003CD1F6 /* DocumentsStore.swift */; };
 		CD6DD4C9262A3586003CD1F6 /* DocumentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DD4C8262A3586003CD1F6 /* DocumentRow.swift */; };
 		CD6DD4CE262A37B7003CD1F6 /* DocumentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DD4CD262A37B7003CD1F6 /* DocumentDetails.swift */; };
-		CD9871BB262CCF0F00CB282E /* DocumentPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9871BA262CCF0F00CB282E /* DocumentPreviewController.swift */; };
-		CD9871C0262CD49900CB282E /* ThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9871BF262CD49900CB282E /* ThumbnailView.swift */; };
 		CD9F0600264ECED400415152 /* DocumentAttributeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9F05FF264ECED400415152 /* DocumentAttributeRow.swift */; };
 		CDA1ECEE2665267E005BFB90 /* SortComparatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA1ECED2665267E005BFB90 /* SortComparatorTests.swift */; };
 		CDA1ECF026654500005BFB90 /* DocumentManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA1ECEF26654500005BFB90 /* DocumentManagerProtocol.swift */; };
@@ -35,7 +34,6 @@
 		CDA4EF4B2635F2B700AEEE46 /* DocumentNameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */; };
 		CDA4EF5326370F1A00AEEE46 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF5226370F1A00AEEE46 /* FolderView.swift */; };
 		CDB30BDA263EFF2500B5396E /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB30BD9263EFF2500B5396E /* SortOption.swift */; };
-		CDBB6187266E7BA700DCA1F4 /* Thumbnailer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBB6186266E7BA700DCA1F4 /* Thumbnailer.swift */; };
 		CDF3BA3A26764D10004143DD /* PhotosUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF3BA3926764D10004143DD /* PhotosUI.framework */; };
 		CDF3BA3C267670B4004143DD /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF3BA3B267670B4004143DD /* PhotoPicker.swift */; };
 /* End PBXBuildFile section */
@@ -59,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		786745FE28EA28810077EA57 /* DocumentExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentExtensionTests.swift; sourceTree = "<group>"; };
+		78CD443828EA355B00E22E53 /* FilePreviews */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = FilePreviews; sourceTree = "<group>"; };
 		CD17BA4A2630525C0066BA12 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		CD2F442325671CB100C9F244 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		CD52024F2564901B005D463C /* Swiftuiapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swiftuiapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,8 +81,6 @@
 		CD6DD4C2262A2AC8003CD1F6 /* DocumentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsStore.swift; sourceTree = "<group>"; };
 		CD6DD4C8262A3586003CD1F6 /* DocumentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRow.swift; sourceTree = "<group>"; };
 		CD6DD4CD262A37B7003CD1F6 /* DocumentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDetails.swift; sourceTree = "<group>"; };
-		CD9871BA262CCF0F00CB282E /* DocumentPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPreviewController.swift; sourceTree = "<group>"; };
-		CD9871BF262CD49900CB282E /* ThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailView.swift; sourceTree = "<group>"; };
 		CD9F05FF264ECED400415152 /* DocumentAttributeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentAttributeRow.swift; sourceTree = "<group>"; };
 		CDA1ECED2665267E005BFB90 /* SortComparatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortComparatorTests.swift; sourceTree = "<group>"; };
 		CDA1ECEF26654500005BFB90 /* DocumentManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentManagerProtocol.swift; sourceTree = "<group>"; };
@@ -92,7 +89,6 @@
 		CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentNameInputView.swift; sourceTree = "<group>"; };
 		CDA4EF5226370F1A00AEEE46 /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
 		CDB30BD9263EFF2500B5396E /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
-		CDBB6186266E7BA700DCA1F4 /* Thumbnailer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumbnailer.swift; sourceTree = "<group>"; };
 		CDF3BA3726764CC8004143DD /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		CDF3BA3926764D10004143DD /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
 		CDF3BA3B267670B4004143DD /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
@@ -104,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDF3BA3A26764D10004143DD /* PhotosUI.framework in Frameworks */,
+				78CD443A28EA358200E22E53 /* FilePreviews in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,12 +121,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		78CD443728EA355B00E22E53 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				78CD443828EA355B00E22E53 /* FilePreviews */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		78CD443B28EA384A00E22E53 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				78CD443D28EA388100E22E53 /* DocumentDetails */,
+				78CD443C28EA385E00E22E53 /* Folder */,
+				78CD443E28EA38C200E22E53 /* Home */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		78CD443C28EA385E00E22E53 /* Folder */ = {
+			isa = PBXGroup;
+			children = (
+				CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */,
+				CD6DD4C8262A3586003CD1F6 /* DocumentRow.swift */,
+				CDA4EF5226370F1A00AEEE46 /* FolderView.swift */,
+				CDB30BD9263EFF2500B5396E /* SortOption.swift */,
+			);
+			path = Folder;
+			sourceTree = "<group>";
+		};
+		78CD443D28EA388100E22E53 /* DocumentDetails */ = {
+			isa = PBXGroup;
+			children = (
+				CD6DD4CD262A37B7003CD1F6 /* DocumentDetails.swift */,
+				CD9F05FF264ECED400415152 /* DocumentAttributeRow.swift */,
+			);
+			path = DocumentDetails;
+			sourceTree = "<group>";
+		};
+		78CD443E28EA38C200E22E53 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				CD5202542564901B005D463C /* ContentView.swift */,
+				CD535B4C2565CD45003AA085 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		CD17BA49263052380066BA12 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				CDBB6186266E7BA700DCA1F4 /* Thumbnailer.swift */,
 				CD17BA4A2630525C0066BA12 /* Formatters.swift */,
-				CDB30BD9263EFF2500B5396E /* SortOption.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -141,22 +183,6 @@
 				CDF3BA3B267670B4004143DD /* PhotoPicker.swift */,
 			);
 			path = Pickers;
-			sourceTree = "<group>";
-		};
-		CD2F441425671C0400C9F244 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CD5202542564901B005D463C /* ContentView.swift */,
-				CD535B4C2565CD45003AA085 /* HomeView.swift */,
-				CD6DD4C8262A3586003CD1F6 /* DocumentRow.swift */,
-				CD6DD4CD262A37B7003CD1F6 /* DocumentDetails.swift */,
-				CD9F05FF264ECED400415152 /* DocumentAttributeRow.swift */,
-				CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */,
-				CD9871BA262CCF0F00CB282E /* DocumentPreviewController.swift */,
-				CDA4EF5226370F1A00AEEE46 /* FolderView.swift */,
-				CD9871BF262CD49900CB282E /* ThumbnailView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		CD2F441E25671C2F00C9F244 /* Model */ = {
@@ -183,6 +209,7 @@
 		CD5202462564901B005D463C = {
 			isa = PBXGroup;
 			children = (
+				78CD443728EA355B00E22E53 /* Packages */,
 				CD5202512564901B005D463C /* Swiftuiapp */,
 				CD5202682564901F005D463C /* SwiftuiappTests */,
 				CD5202732564901F005D463C /* SwiftuiappUITests */,
@@ -207,7 +234,7 @@
 			children = (
 				CD5202602564901F005D463C /* Info.plist */,
 				CD5202522564901B005D463C /* SwiftuiappApp.swift */,
-				CD2F441425671C0400C9F244 /* Views */,
+				78CD443B28EA384A00E22E53 /* Screens */,
 				CD2F441325671BF200C9F244 /* Pickers */,
 				CD2F441E25671C2F00C9F244 /* Model */,
 				CD17BA49263052380066BA12 /* Utils */,
@@ -289,6 +316,9 @@
 			dependencies = (
 			);
 			name = Swiftuiapp;
+			packageProductDependencies = (
+				78CD443928EA358200E22E53 /* FilePreviews */,
+			);
 			productName = Swiftuiapp;
 			productReference = CD52024F2564901B005D463C /* Swiftuiapp.app */;
 			productType = "com.apple.product-type.application";
@@ -416,12 +446,9 @@
 				CD6DD4BE262A2A03003CD1F6 /* Document.swift in Sources */,
 				CDF3BA3C267670B4004143DD /* PhotoPicker.swift in Sources */,
 				CDA4EF4B2635F2B700AEEE46 /* DocumentNameInputView.swift in Sources */,
-				CDBB6187266E7BA700DCA1F4 /* Thumbnailer.swift in Sources */,
 				CD6DD4C3262A2AC8003CD1F6 /* DocumentsStore.swift in Sources */,
 				CDA1ECF226654538005BFB90 /* DocumentManager.swift in Sources */,
 				CDB30BDA263EFF2500B5396E /* SortOption.swift in Sources */,
-				CD9871C0262CD49900CB282E /* ThumbnailView.swift in Sources */,
-				CD9871BB262CCF0F00CB282E /* DocumentPreviewController.swift in Sources */,
 				CD52025F2564901F005D463C /* Swiftuiapp.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -741,6 +768,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		78CD443928EA358200E22E53 /* FilePreviews */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FilePreviews;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		CD52025D2564901F005D463C /* Swiftuiapp.xcdatamodeld */ = {
