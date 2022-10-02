@@ -1,23 +1,23 @@
 import SwiftUI
 
 struct DocumentRow: View {
-    @ObservedObject var viewModel: DocumentDetailsViewModel
+    var document: Document
 
     var body: some View {
         HStack (alignment: .top, spacing: 16) {
-            ThumbnailView(url: viewModel.documentUrl)
+            ThumbnailView(url: document.url)
                 .frame(width: 60, height: 60, alignment: .center)
                 .clipped()
                 .cornerRadius(8)
 
             VStack(alignment: .leading, spacing: 12 ) {
-                Text(viewModel.documentName)
+                Text(document.name)
                     .font(.headline)
                     .lineLimit(2)
                     .allowsTightening(true)
 
-                if let modified = viewModel.documentModified {
-                    Text(modified)
+                if let modified = document.modified {
+                    Text(modified.formatted())
                         .font(.subheadline)
                         .lineLimit(1)
                         .allowsTightening(true)
@@ -31,11 +31,10 @@ struct DocumentRow: View {
 struct DocumentRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DocumentRow(viewModel: DocumentDetailsViewModel(document: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)).documents[1]))
+            DocumentRow(document: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)).documents[1])
                 .environment(\.sizeCategory, .large)
                 .previewLayout(.sizeThatFits)
                 .preferredColorScheme(.dark)
-
         }
     }
 }

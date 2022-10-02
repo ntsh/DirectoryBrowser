@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 struct Document: Identifiable {
     var id = UUID()
@@ -11,4 +10,10 @@ struct Document: Identifiable {
     var modified: Date?
 
     var isDirectory: Bool = false
+}
+
+extension Document {
+    var formattedSize: String {
+        Int(truncating: size).formatted(ByteCountFormatStyle())
+    }
 }

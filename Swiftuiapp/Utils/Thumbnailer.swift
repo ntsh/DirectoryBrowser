@@ -2,12 +2,11 @@ import Foundation
 import QuickLook
 
 @MainActor
-class ThumbnailViewModel: ObservableObject {
+class Thumbnailer: ObservableObject {
     @Published var thumbnail: CGImage?
-    @Published var imageLabel = "Thumbnail"
+    @Published var imageLabel = "Thumbnail" // Potentially generate this based on image content
 
-    func generateThumbnail(_ url: URL) {
-        let size: CGSize = CGSize(width: 400, height: 400)
+    func generateThumbnail(_ url: URL, size: CGSize = CGSize(width: 400, height: 400)) {
         let request = QLThumbnailGenerator.Request(fileAt: url, size: size, scale: (UIScreen.main.scale), representationTypes: .all)
         let generator = QLThumbnailGenerator.shared
 

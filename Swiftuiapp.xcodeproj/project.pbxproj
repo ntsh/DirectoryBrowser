@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		786745FF28EA28810077EA57 /* DocumentExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786745FE28EA28810077EA57 /* DocumentExtensionTests.swift */; };
 		CD17BA4B2630525C0066BA12 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD17BA4A2630525C0066BA12 /* Formatters.swift */; };
 		CD2F442425671CB100C9F244 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2F442325671CB100C9F244 /* DocumentPicker.swift */; };
 		CD5202532564901B005D463C /* SwiftuiappApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5202522564901B005D463C /* SwiftuiappApp.swift */; };
@@ -18,8 +19,6 @@
 		CD52026A2564901F005D463C /* SwiftuiappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5202692564901F005D463C /* SwiftuiappTests.swift */; };
 		CD5202752564901F005D463C /* SwiftuiappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5202742564901F005D463C /* SwiftuiappUITests.swift */; };
 		CD535B4D2565CD45003AA085 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD535B4C2565CD45003AA085 /* HomeView.swift */; };
-		CD569365264F91E000B1D509 /* DocumentDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD569364264F91E000B1D509 /* DocumentDetailsViewModel.swift */; };
-		CD569367264F934100B1D509 /* DocumentDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD569366264F934100B1D509 /* DocumentDetailsViewModelTests.swift */; };
 		CD56936B264FA36100B1D509 /* ShortTimestampFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD56936A264FA36100B1D509 /* ShortTimestampFormatterTests.swift */; };
 		CD56936D264FA51A00B1D509 /* DocumentSizeFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD56936C264FA51A00B1D509 /* DocumentSizeFormatterTests.swift */; };
 		CD6DD4BE262A2A03003CD1F6 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6DD4BD262A2A03003CD1F6 /* Document.swift */; };
@@ -36,7 +35,7 @@
 		CDA4EF4B2635F2B700AEEE46 /* DocumentNameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */; };
 		CDA4EF5326370F1A00AEEE46 /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA4EF5226370F1A00AEEE46 /* FolderView.swift */; };
 		CDB30BDA263EFF2500B5396E /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB30BD9263EFF2500B5396E /* SortOption.swift */; };
-		CDBB6187266E7BA700DCA1F4 /* ThumbnailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBB6186266E7BA700DCA1F4 /* ThumbnailViewModel.swift */; };
+		CDBB6187266E7BA700DCA1F4 /* Thumbnailer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDBB6186266E7BA700DCA1F4 /* Thumbnailer.swift */; };
 		CDF3BA3A26764D10004143DD /* PhotosUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDF3BA3926764D10004143DD /* PhotosUI.framework */; };
 		CDF3BA3C267670B4004143DD /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF3BA3B267670B4004143DD /* PhotoPicker.swift */; };
 /* End PBXBuildFile section */
@@ -59,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		786745FE28EA28810077EA57 /* DocumentExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentExtensionTests.swift; sourceTree = "<group>"; };
 		CD17BA4A2630525C0066BA12 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		CD2F442325671CB100C9F244 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		CD52024F2564901B005D463C /* Swiftuiapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swiftuiapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,8 +76,6 @@
 		CD5202742564901F005D463C /* SwiftuiappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftuiappUITests.swift; sourceTree = "<group>"; };
 		CD5202762564901F005D463C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD535B4C2565CD45003AA085 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		CD569364264F91E000B1D509 /* DocumentDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDetailsViewModel.swift; sourceTree = "<group>"; };
-		CD569366264F934100B1D509 /* DocumentDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDetailsViewModelTests.swift; sourceTree = "<group>"; };
 		CD56936A264FA36100B1D509 /* ShortTimestampFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortTimestampFormatterTests.swift; sourceTree = "<group>"; };
 		CD56936C264FA51A00B1D509 /* DocumentSizeFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentSizeFormatterTests.swift; sourceTree = "<group>"; };
 		CD6DD4BD262A2A03003CD1F6 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
@@ -94,7 +92,7 @@
 		CDA4EF4A2635F2B700AEEE46 /* DocumentNameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentNameInputView.swift; sourceTree = "<group>"; };
 		CDA4EF5226370F1A00AEEE46 /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
 		CDB30BD9263EFF2500B5396E /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
-		CDBB6186266E7BA700DCA1F4 /* ThumbnailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailViewModel.swift; sourceTree = "<group>"; };
+		CDBB6186266E7BA700DCA1F4 /* Thumbnailer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumbnailer.swift; sourceTree = "<group>"; };
 		CDF3BA3726764CC8004143DD /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		CDF3BA3926764D10004143DD /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
 		CDF3BA3B267670B4004143DD /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
@@ -129,6 +127,7 @@
 		CD17BA49263052380066BA12 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				CDBB6186266E7BA700DCA1F4 /* Thumbnailer.swift */,
 				CD17BA4A2630525C0066BA12 /* Formatters.swift */,
 				CDB30BD9263EFF2500B5396E /* SortOption.swift */,
 			);
@@ -209,7 +208,6 @@
 				CD5202602564901F005D463C /* Info.plist */,
 				CD5202522564901B005D463C /* SwiftuiappApp.swift */,
 				CD2F441425671C0400C9F244 /* Views */,
-				CD569363264F919300B1D509 /* ViewModels */,
 				CD2F441325671BF200C9F244 /* Pickers */,
 				CD2F441E25671C2F00C9F244 /* Model */,
 				CD17BA49263052380066BA12 /* Utils */,
@@ -232,7 +230,6 @@
 			children = (
 				CDA1ECF326655B04005BFB90 /* ModelTests */,
 				CD569369264FA34B00B1D509 /* UtilsTests */,
-				CD569368264F934900B1D509 /* ViewModelsTests */,
 				CD5202692564901F005D463C /* SwiftuiappTests.swift */,
 				CD52026B2564901F005D463C /* Info.plist */,
 			);
@@ -246,23 +243,6 @@
 				CD5202762564901F005D463C /* Info.plist */,
 			);
 			path = SwiftuiappUITests;
-			sourceTree = "<group>";
-		};
-		CD569363264F919300B1D509 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				CD569364264F91E000B1D509 /* DocumentDetailsViewModel.swift */,
-				CDBB6186266E7BA700DCA1F4 /* ThumbnailViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		CD569368264F934900B1D509 /* ViewModelsTests */ = {
-			isa = PBXGroup;
-			children = (
-				CD569366264F934100B1D509 /* DocumentDetailsViewModelTests.swift */,
-			);
-			path = ViewModelsTests;
 			sourceTree = "<group>";
 		};
 		CD569369264FA34B00B1D509 /* UtilsTests */ = {
@@ -279,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				CDA1ECF426655B28005BFB90 /* DocumentsStoreTests.swift */,
+				786745FE28EA28810077EA57 /* DocumentExtensionTests.swift */,
 			);
 			path = ModelTests;
 			sourceTree = "<group>";
@@ -435,11 +416,10 @@
 				CD6DD4BE262A2A03003CD1F6 /* Document.swift in Sources */,
 				CDF3BA3C267670B4004143DD /* PhotoPicker.swift in Sources */,
 				CDA4EF4B2635F2B700AEEE46 /* DocumentNameInputView.swift in Sources */,
-				CDBB6187266E7BA700DCA1F4 /* ThumbnailViewModel.swift in Sources */,
+				CDBB6187266E7BA700DCA1F4 /* Thumbnailer.swift in Sources */,
 				CD6DD4C3262A2AC8003CD1F6 /* DocumentsStore.swift in Sources */,
 				CDA1ECF226654538005BFB90 /* DocumentManager.swift in Sources */,
 				CDB30BDA263EFF2500B5396E /* SortOption.swift in Sources */,
-				CD569365264F91E000B1D509 /* DocumentDetailsViewModel.swift in Sources */,
 				CD9871C0262CD49900CB282E /* ThumbnailView.swift in Sources */,
 				CD9871BB262CCF0F00CB282E /* DocumentPreviewController.swift in Sources */,
 				CD52025F2564901F005D463C /* Swiftuiapp.xcdatamodeld in Sources */,
@@ -451,8 +431,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD56936D264FA51A00B1D509 /* DocumentSizeFormatterTests.swift in Sources */,
-				CD569367264F934100B1D509 /* DocumentDetailsViewModelTests.swift in Sources */,
 				CD56936B264FA36100B1D509 /* ShortTimestampFormatterTests.swift in Sources */,
+				786745FF28EA28810077EA57 /* DocumentExtensionTests.swift in Sources */,
 				CD52026A2564901F005D463C /* SwiftuiappTests.swift in Sources */,
 				CDA1ECF526655B28005BFB90 /* DocumentsStoreTests.swift in Sources */,
 				CDA1ECEE2665267E005BFB90 /* SortComparatorTests.swift in Sources */,

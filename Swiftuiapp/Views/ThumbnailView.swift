@@ -3,20 +3,20 @@ import SwiftUI
 struct ThumbnailView: View {
     let url: URL
 
-    @StateObject var viewModel = ThumbnailViewModel()
+    @StateObject var thumbnailer = Thumbnailer()
 
     var body: some View {
         Group {
-            if let thumbnail = viewModel.thumbnail {
-                Image(thumbnail, scale: (UIScreen.main.scale), label: Text(viewModel.imageLabel))
+            if let thumbnail = thumbnailer.thumbnail {
+                Image(thumbnail, scale: (UIScreen.main.scale), label: Text(thumbnailer.imageLabel))
                     .resizable()
                     .scaledToFit()
                     .aspectRatio(contentMode: .fill)
             } else {
                 Image(systemName: "photo.fill")
-                    .onAppear(perform: {
-                        viewModel.generateThumbnail(url)
-                    })
+                    .onAppear {
+                        thumbnailer.generateThumbnail(url)
+                    }
             }
         }
     }
