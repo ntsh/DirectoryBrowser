@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "filepreviews",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:ntsh/FilePreviews.git",
+      "state" : {
+        "revision" : "524898304616a5dd01cc33972cd4fcecd8affbde",
+        "version" : "0.1.0"
+      }
+    }
+  ],
+  "version" : 2
+}

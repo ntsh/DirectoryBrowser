@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		786745FF28EA28810077EA57 /* DocumentExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786745FE28EA28810077EA57 /* DocumentExtensionTests.swift */; };
-		78CD443A28EA358200E22E53 /* FilePreviews in Frameworks */ = {isa = PBXBuildFile; productRef = 78CD443928EA358200E22E53 /* FilePreviews */; };
+		78B22CF928FC2E0B009E922A /* FilePreviews in Frameworks */ = {isa = PBXBuildFile; productRef = 78B22CF828FC2E0B009E922A /* FilePreviews */; };
 		CD17BA4B2630525C0066BA12 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD17BA4A2630525C0066BA12 /* Formatters.swift */; };
 		CD2F442425671CB100C9F244 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2F442325671CB100C9F244 /* DocumentPicker.swift */; };
 		CD5202532564901B005D463C /* SwiftuiappApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5202522564901B005D463C /* SwiftuiappApp.swift */; };
@@ -57,7 +57,6 @@
 
 /* Begin PBXFileReference section */
 		786745FE28EA28810077EA57 /* DocumentExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentExtensionTests.swift; sourceTree = "<group>"; };
-		78CD443828EA355B00E22E53 /* FilePreviews */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = FilePreviews; sourceTree = "<group>"; };
 		CD17BA4A2630525C0066BA12 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		CD2F442325671CB100C9F244 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		CD52024F2564901B005D463C /* Swiftuiapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swiftuiapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,7 +99,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDF3BA3A26764D10004143DD /* PhotosUI.framework in Frameworks */,
-				78CD443A28EA358200E22E53 /* FilePreviews in Frameworks */,
+				78B22CF928FC2E0B009E922A /* FilePreviews in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +123,6 @@
 		78CD443728EA355B00E22E53 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				78CD443828EA355B00E22E53 /* FilePreviews */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -317,7 +315,7 @@
 			);
 			name = Swiftuiapp;
 			packageProductDependencies = (
-				78CD443928EA358200E22E53 /* FilePreviews */,
+				78B22CF828FC2E0B009E922A /* FilePreviews */,
 			);
 			productName = Swiftuiapp;
 			productReference = CD52024F2564901B005D463C /* Swiftuiapp.app */;
@@ -390,6 +388,9 @@
 				Base,
 			);
 			mainGroup = CD5202462564901B005D463C;
+			packageReferences = (
+				78B22CF728FC2E0B009E922A /* XCRemoteSwiftPackageReference "FilePreviews" */,
+			);
 			productRefGroup = CD5202502564901B005D463C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -769,9 +770,21 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		78B22CF728FC2E0B009E922A /* XCRemoteSwiftPackageReference "FilePreviews" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ntsh/FilePreviews";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		78CD443928EA358200E22E53 /* FilePreviews */ = {
+		78B22CF828FC2E0B009E922A /* FilePreviews */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 78B22CF728FC2E0B009E922A /* XCRemoteSwiftPackageReference "FilePreviews" */;
 			productName = FilePreviews;
 		};
 /* End XCSwiftPackageProductDependency section */
