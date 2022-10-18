@@ -3,9 +3,9 @@
     {
       "identity" : "filepreviews",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:ntsh/FilePreviews.git",
+      "location" : "https://github.com/ntsh/FilePreviews.git",
       "state" : {
-        "revision" : "524898304616a5dd01cc33972cd4fcecd8affbde",
+        "revision" : "fc0afe8a263dc9610c1928983636e119e89e6175",
         "version" : "0.1.0"
       }
     }

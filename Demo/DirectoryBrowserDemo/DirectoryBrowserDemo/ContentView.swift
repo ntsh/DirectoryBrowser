@@ -1,18 +1,9 @@
 import SwiftUI
 import DirectoryBrowser
 
-@main
-struct SwiftuiappApp: App {
-    var body: some Scene {
-        WindowGroup {
-            //DirectoryBrowser(documentsStore: DocumentsStore())
-            HomwView()
-        }
-    }
-}
-
-struct HomwView: View {
+struct ContentView: View {
     @State var browse = false
+
     var body: some View {
         Button("Browse") {
             browse = true
@@ -20,5 +11,11 @@ struct HomwView: View {
         .sheet(isPresented: $browse) {
             DirectoryBrowser(documentsStore: DocumentsStore())
         }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
