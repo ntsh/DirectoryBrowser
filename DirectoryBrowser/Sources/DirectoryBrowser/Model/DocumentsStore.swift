@@ -5,7 +5,7 @@ enum DocumentsStoreError: Error {
 }
 
 @MainActor
-class DocumentsStore: ObservableObject {
+public class DocumentsStore: ObservableObject {
     @Published var documents: [Document] = []
     @Published var sorting: SortOption = .date(ascending: false) //TODO: Get it from userdefaults
 
@@ -25,7 +25,7 @@ class DocumentsStore: ObservableObject {
         return docDirectory.appendingPathComponent(relativePath)
     }
 
-    init(relativePath: String, sorting: SortOption, documentsSource: DocumentManagerProtocol = DocumentManager()) {
+    public init(relativePath: String = "", sorting: SortOption = .date(ascending: true), documentsSource: DocumentManagerProtocol = DocumentManager()) {
         self.relativePath = relativePath
         self.sorting = sorting
         self.documentManager = documentsSource

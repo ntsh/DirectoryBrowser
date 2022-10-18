@@ -1,5 +1,5 @@
 import XCTest
-@testable import Swiftuiapp
+@testable import DirectoryBrowser
 import SwiftUI
 
 @MainActor

@@ -1,12 +1,24 @@
 import SwiftUI
+import DirectoryBrowser
 
 @main
 struct SwiftuiappApp: App {
-    let persistenceController = PersistenceController.shared
-
     var body: some Scene {
         WindowGroup {
-            HomeView(documentsStore: DocumentsStore(relativePath: "", sorting: .date(ascending: true))).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            //DirectoryBrowser(documentsStore: DocumentsStore())
+            HomwView()
+        }
+    }
+}
+
+struct HomwView: View {
+    @State var browse = false
+    var body: some View {
+        Button("Browse") {
+            browse = true
+        }
+        .sheet(isPresented: $browse) {
+            DirectoryBrowser(documentsStore: DocumentsStore())
         }
     }
 }

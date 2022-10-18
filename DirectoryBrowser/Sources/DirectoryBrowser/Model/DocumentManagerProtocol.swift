@@ -1,7 +1,7 @@
 import Foundation
 
 /// Protocol defining the functions related to documents operation
-protocol DocumentManagerProtocol {
+public protocol DocumentManagerProtocol {
     func documentDirectory() -> URL?
     func contentsOfDirectory(at url: URL) throws -> [URL]
     func removeItem(at url: URL) throws

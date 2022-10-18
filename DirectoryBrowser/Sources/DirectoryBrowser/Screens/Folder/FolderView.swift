@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FolderView: View {
+public struct FolderView: View {
     @State var isPresentedPicker = false
     @State var isPresentedPhotoPicker = false
     @State var isInputingNewFolderName = false
@@ -92,7 +92,12 @@ struct FolderView: View {
         }
     }
 
-    var body: some View {
+    public init(documentsStore: DocumentsStore, title: String) {
+        self.documentsStore = documentsStore
+        self.title = title
+    }
+
+    public var body: some View {
         ZStack {
             List() {
                 Section(header: listSectionHeader) {
@@ -230,7 +235,7 @@ struct FolderView: View {
 struct FolderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            FolderView(isInputingNewFolderName: true, documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
+            FolderView(documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
         }
     }
 }

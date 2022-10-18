@@ -1,6 +1,6 @@
 import Foundation
 
-enum SortOption: Equatable {
+public enum SortOption: Equatable {
     case date(ascending: Bool)
     case name(ascending: Bool)
 }
