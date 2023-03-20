@@ -6,7 +6,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = PHPickerViewController
 
-    var documentsStore: DocumentsStore
+    var documentsStore: DocumentImporter
     var callback: () -> ()
 
     func makeUIViewController(context: Context) -> PHPickerViewController {
@@ -59,7 +59,9 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
 
         private func importFile(from url: URL) {
-            parent.documentsStore.importFile(from: url)
+            Task {
+                await parent.documentsStore.importFile(from: url)
+            }
         }
     }
 }

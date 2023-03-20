@@ -4,7 +4,7 @@ import SwiftUI
 struct DocumentDetails: View {
     var document: Document
 
-    @State private var showingPreview = false
+    @State private var urlToPreview: URL?
 
     public init(document: Document) {
         self.document = document
@@ -37,9 +37,7 @@ struct DocumentDetails: View {
             }
             .listStyle(InsetGroupedListStyle())
         }
-        .fullScreenCover(isPresented: $showingPreview) {
-            PreviewController(url: document.url, isPresented: $showingPreview)
-        }
+        .quickLookPreview($urlToPreview)
         .navigationBarItems(trailing: HStack {
             Button(action: showPreview) {
                 Image(systemName: "play.fill")
@@ -49,7 +47,7 @@ struct DocumentDetails: View {
     }
 
     func showPreview() {
-        showingPreview = true
+        urlToPreview = document.url
     }
 }
 

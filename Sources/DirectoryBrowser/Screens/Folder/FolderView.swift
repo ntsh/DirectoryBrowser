@@ -219,8 +219,9 @@ public struct FolderView: View {
     }
 
     private func renameDocument(name: String) {
+        guard let documentToRename = documentToRename else { return }
         do {
-            try documentsStore.rename(document: documentToRename!, newName: name)
+            try documentsStore.rename(document: documentToRename, newName: name)
             finishEnteringDocName()
         } catch DocumentsStoreError.fileExists {
             withAnimation {

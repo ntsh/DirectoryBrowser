@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ntsh/FilePreviews.git",
       "state" : {
-        "revision" : "fc0afe8a263dc9610c1928983636e119e89e6175",
-        "version" : "0.1.0"
+        "revision" : "fd024b8084442d35ac8ae4451207f65e98199852",
+        "version" : "0.2.0"
       }
     }
   ],

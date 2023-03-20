@@ -63,13 +63,15 @@ class DocumentsStoreTests: XCTestCase {
         XCTAssertEqual(documents.first?.name, "test.pdf")
     }
 
-    func testChangeSort() {
+    func testChangeSort() async {
         documentsStore.setSorting(.name(ascending: false))
         var documents = documentsStore.documents
         XCTAssertEqual(documents.first?.name, "test.pdf")
 
         documentsStore.setSorting(.name(ascending: true))
+//        try? await Task.sleep(nanoseconds: NSEC_PER_MSEC)
         documents = documentsStore.documents
+        
         XCTAssertEqual(documents.first?.name, "OtherTest.jpeg")
     }
 

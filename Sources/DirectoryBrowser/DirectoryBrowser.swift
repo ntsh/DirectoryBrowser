@@ -1,7 +1,9 @@
 import SwiftUI
+import FilePreviews
 
 public struct DirectoryBrowser: View {
     @ObservedObject var documentsStore: DocumentsStore
+    @StateObject var thumbnailer = Thumbnailer()
 
     public init(documentsStore: DocumentsStore) {
         self.documentsStore = documentsStore
@@ -11,6 +13,7 @@ public struct DirectoryBrowser: View {
         NavigationView {
             FolderView(documentsStore: documentsStore, title: "Documents")
         }
+        .environmentObject(thumbnailer)
     }
 }
 

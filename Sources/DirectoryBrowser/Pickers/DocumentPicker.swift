@@ -5,7 +5,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = UIDocumentPickerViewController
 
-    var documentsStore: DocumentsStore
+    var documentsStore: DocumentImporter
     var callback: () -> ()
 
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
@@ -47,7 +47,9 @@ struct DocumentPicker: UIViewControllerRepresentable {
         }
 
         private func importFile(from url: URL) {
-            parent.documentsStore.importFile(from: url)
+            Task {
+                await parent.documentsStore.importFile(from: url)
+            }
         }
     }
 }

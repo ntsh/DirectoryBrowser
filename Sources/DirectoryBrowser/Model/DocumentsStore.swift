@@ -4,8 +4,12 @@ enum DocumentsStoreError: Error {
     case fileExists
 }
 
+protocol DocumentImporter {
+    func importFile(from url: URL) async
+}
+
 @MainActor
-public class DocumentsStore: ObservableObject {
+public class DocumentsStore: ObservableObject, DocumentImporter {
     @Published var documents: [Document] = []
     @Published var sorting: SortOption = .date(ascending: false) //TODO: Get it from userdefaults
 
@@ -17,7 +21,6 @@ public class DocumentsStore: ObservableObject {
         guard let docDirectory = documentManager.documentDirectory() else {
             return nil
         }
-
         guard relativePath.count > 0 else {
             return docDirectory
         }
@@ -122,8 +125,8 @@ public class DocumentsStore: ObservableObject {
                 try documentManager.copyItem(at: url, to: suitableUrl)
 
                 if let document = document(from: suitableUrl) {
-                    self.documents.insert(document, at: self.documents.endIndex)
-                    self.sort()
+                    documents.insert(document, at: self.documents.endIndex)
+                    sort()
                 }
             } catch CocoaError.fileWriteFileExists {
                 retry = true
