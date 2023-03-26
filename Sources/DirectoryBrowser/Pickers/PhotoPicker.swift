@@ -59,8 +59,15 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
 
         private func importFile(from url: URL) {
-            Task {
-                await parent.documentsStore.importFile(from: url)
+            let tempFileUrl = URL.temporaryDirectory.appendingPathComponent(url.lastPathComponent)
+            do {
+                // Copy at temp folder
+                try FileManager.default.copyItem(at: url, to: tempFileUrl)
+                Task {
+                    await parent.documentsStore.importFile(from: url)
+                }
+            } catch {
+                print("PhotoPicker: Error copying to temp file: \(error)")
             }
         }
     }

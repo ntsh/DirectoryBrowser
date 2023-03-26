@@ -122,7 +122,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
             retry = false
 
             do {
-                try documentManager.copyItem(at: url, to: suitableUrl)
+                try documentManager.moveItem(at: url, to: suitableUrl)
 
                 if let document = document(from: suitableUrl) {
                     documents.insert(document, at: self.documents.endIndex)
