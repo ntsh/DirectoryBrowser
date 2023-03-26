@@ -1,5 +1,5 @@
-import SwiftUI
 import DirectoryBrowser
+import SwiftUI
 
 @main
 struct DirectoryBrowserDemoApp: App {
