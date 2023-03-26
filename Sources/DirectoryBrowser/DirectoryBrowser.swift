@@ -34,9 +34,3 @@ struct DirectoryBrowser_Previews: PreviewProvider {
         }
     }
 }
-
-extension URL: Identifiable {
-    public var id: String {
-        absoluteString
-    }
-}
