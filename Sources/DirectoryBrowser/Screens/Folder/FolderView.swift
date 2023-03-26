@@ -150,7 +150,7 @@ public struct FolderView: View {
     private func navigationDestination(for document: Document) -> AnyView {
         if document.isDirectory {
             let relativePath = documentsStore.relativePath(for: document)
-            return AnyView(FolderView(documentsStore: DocumentsStore(relativePath: relativePath, sorting: documentsStore.sorting), title: document.name))
+            return AnyView(FolderView(documentsStore: DocumentsStore(root: documentsStore.docDirectory ,relativePath: relativePath, sorting: documentsStore.sorting), title: document.name))
         } else {
             return AnyView(DocumentDetails(document: document))
         }
@@ -236,7 +236,7 @@ public struct FolderView: View {
 struct FolderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            FolderView(documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
+            FolderView(documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory, relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
         }
     }
 }

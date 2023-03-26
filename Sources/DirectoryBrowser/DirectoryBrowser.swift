@@ -20,10 +20,10 @@ public struct DirectoryBrowser: View {
 struct DirectoryBrowser_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DirectoryBrowser(documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)))
+            DirectoryBrowser(documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory ,relativePath: "/", sorting: .date(ascending: true)))
                 .preferredColorScheme(.light)
 
-            DirectoryBrowser(documentsStore: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)))
+            DirectoryBrowser(documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory, relativePath: "/", sorting: .date(ascending: true)))
                 .preferredColorScheme(.dark)
         }
     }

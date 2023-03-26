@@ -53,7 +53,7 @@ struct DocumentDetails: View {
 
 struct DocumentDetails_Previews: PreviewProvider {
     static var previews: some View {
-        DocumentDetails(document: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)).documents[1])
+        DocumentDetails(document: DocumentsStore_Preview(root: URL.temporaryDirectory, relativePath: "/", sorting: .date(ascending: true)).documents[1])
             .preferredColorScheme(.dark)
             .environment(\.sizeCategory, .large)
     }

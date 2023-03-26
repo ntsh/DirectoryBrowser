@@ -32,7 +32,7 @@ struct DocumentRow: View {
 struct DocumentRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DocumentRow(document: DocumentsStore_Preview(relativePath: "/", sorting: .date(ascending: true)).documents[1])
+            DocumentRow(document: DocumentsStore_Preview(root: URL.temporaryDirectory, relativePath: "/", sorting: .date(ascending: true)).documents[1])
                 .environment(\.sizeCategory, .large)
                 .previewLayout(.sizeThatFits)
                 .preferredColorScheme(.dark)

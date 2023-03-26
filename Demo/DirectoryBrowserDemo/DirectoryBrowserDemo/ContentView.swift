@@ -9,7 +9,7 @@ struct ContentView: View {
             browse = true
         }
         .sheet(isPresented: $browse) {
-            DirectoryBrowser(documentsStore: DocumentsStore())
+            DirectoryBrowser(documentsStore: DocumentsStore(root: .temporaryDirectory))
         }
     }
 }

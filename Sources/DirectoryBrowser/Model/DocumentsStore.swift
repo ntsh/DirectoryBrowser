@@ -13,14 +13,12 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     @Published var documents: [Document] = []
     @Published var sorting: SortOption = .date(ascending: false) //TODO: Get it from userdefaults
 
+    var docDirectory: URL
     private var relativePath: String
-    private var documentManager: DocumentManagerProtocol
+    private var documentManager: DocumentManager
     private let attrKeys: [URLResourceKey] = [.nameKey, .fileSizeKey, .contentModificationDateKey, .creationDateKey, .isDirectoryKey]
 
     private var workingDirectory: URL? {
-        guard let docDirectory = documentManager.documentDirectory() else {
-            return nil
-        }
         guard relativePath.count > 0 else {
             return docDirectory
         }
@@ -28,7 +26,13 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         return docDirectory.appendingPathComponent(relativePath)
     }
 
-    public init(relativePath: String = "", sorting: SortOption = .date(ascending: true), documentsSource: DocumentManagerProtocol = DocumentManager()) {
+    public init(
+        root: URL,
+        relativePath: String = "",
+        sorting: SortOption = .date(ascending: true),
+        documentsSource: DocumentManager = FileManager.default
+    ) {
+        docDirectory = root
         self.relativePath = relativePath
         self.sorting = sorting
         self.documentManager = documentsSource
