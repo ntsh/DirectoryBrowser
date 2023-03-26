@@ -9,6 +9,6 @@ extension FileManager: DocumentManager {
     }
 
     public func createDirectory(at url: URL) throws {
-        try createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+        try createDirectory(at: url, withIntermediateDirectories: false, attributes: nil)
     }
 }

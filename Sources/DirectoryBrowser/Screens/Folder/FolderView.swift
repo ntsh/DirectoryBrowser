@@ -150,7 +150,7 @@ public struct FolderView: View {
     private func navigationDestination(for document: Document) -> AnyView {
         if document.isDirectory {
             let relativePath = documentsStore.relativePath(for: document)
-            return AnyView(FolderView(documentsStore: DocumentsStore(root: documentsStore.docDirectory ,relativePath: relativePath, sorting: documentsStore.sorting), title: document.name))
+            return AnyView(FolderView(documentsStore: DocumentsStore(root: documentsStore.docDirectory, relativePath: relativePath, sorting: documentsStore.sorting), title: document.name))
         } else {
             return AnyView(DocumentDetails(document: document))
         }

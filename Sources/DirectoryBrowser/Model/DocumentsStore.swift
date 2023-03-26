@@ -126,7 +126,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
             retry = false
 
             do {
-                try documentManager.moveItem(at: url, to: suitableUrl)
+                try documentManager.copyItem(at: url, to: suitableUrl)
 
                 if let document = document(from: suitableUrl) {
                     documents.insert(document, at: self.documents.endIndex)
@@ -151,7 +151,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     }
 
     func relativePath(for document: Document) -> String {
-        let url = URL(fileURLWithPath: document.name, isDirectory: document.isDirectory, relativeTo: URL(fileURLWithPath: relativePath, isDirectory: true)).path
+        let url = URL(fileURLWithPath: document.name, isDirectory: document.isDirectory, relativeTo: URL(fileURLWithPath: "/\(relativePath)", isDirectory: true)).path
         return url
     }
 

@@ -2,16 +2,22 @@ import SwiftUI
 import FilePreviews
 
 public struct DirectoryBrowser: View {
-    @ObservedObject var documentsStore: DocumentsStore
     @StateObject var thumbnailer = Thumbnailer()
+    private var urls: [URL]
 
-    public init(documentsStore: DocumentsStore) {
-        self.documentsStore = documentsStore
+    public init(
+        urls: [URL] = [.documentsDirectory, .libraryDirectory, .temporaryDirectory]
+    ) {
+        self.urls = urls
     }
 
     public var body: some View {
         NavigationView {
-            FolderView(documentsStore: documentsStore, title: "Documents")
+            List(urls) { url in
+                NavigationLink(url.lastPathComponent) {
+                    FolderView(documentsStore: DocumentsStore(root: url), title: url.lastPathComponent)
+                }
+            }
         }
         .environmentObject(thumbnailer)
     }
@@ -20,11 +26,17 @@ public struct DirectoryBrowser: View {
 struct DirectoryBrowser_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DirectoryBrowser(documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory ,relativePath: "/", sorting: .date(ascending: true)))
+            DirectoryBrowser()
                 .preferredColorScheme(.light)
 
-            DirectoryBrowser(documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory, relativePath: "/", sorting: .date(ascending: true)))
+            DirectoryBrowser()
                 .preferredColorScheme(.dark)
         }
+    }
+}
+
+extension URL: Identifiable {
+    public var id: String {
+        absoluteString
     }
 }

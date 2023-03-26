@@ -8,14 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		78311E2628FF4A7A001C7B20 /* DirectoryBrowserDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78311E2528FF4A7A001C7B20 /* DirectoryBrowserDemoApp.swift */; };
-		78311E2828FF4A7A001C7B20 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78311E2728FF4A7A001C7B20 /* ContentView.swift */; };
 		78311E3828FF4ADD001C7B20 /* DirectoryBrowser in Frameworks */ = {isa = PBXBuildFile; productRef = 78311E3728FF4ADD001C7B20 /* DirectoryBrowser */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		78311E2228FF4A7A001C7B20 /* DirectoryBrowserDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DirectoryBrowserDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78311E2528FF4A7A001C7B20 /* DirectoryBrowserDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryBrowserDemoApp.swift; sourceTree = "<group>"; };
-		78311E2728FF4A7A001C7B20 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		78311E3528FF4AAD001C7B20 /* DocuSafe-SwiftUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "DocuSafe-SwiftUI"; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,7 +51,6 @@
 			isa = PBXGroup;
 			children = (
 				78311E2528FF4A7A001C7B20 /* DirectoryBrowserDemoApp.swift */,
-				78311E2728FF4A7A001C7B20 /* ContentView.swift */,
 			);
 			path = DirectoryBrowserDemo;
 			sourceTree = "<group>";
@@ -144,7 +141,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78311E2828FF4A7A001C7B20 /* ContentView.swift in Sources */,
 				78311E2628FF4A7A001C7B20 /* DirectoryBrowserDemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -4,53 +4,38 @@ import SwiftUI
 
 @MainActor
 class DocumentsStoreTests: XCTestCase {
-
     private var documentsStore: DocumentsStore!
-    private var mockFileManager: TempFileManager!
 
-    private class TempFileManager: DocumentManager {
-
-        typealias DocumentInfo = (name: String, date: Date)
-
-        private var docs: [DocumentInfo]
-
-        init(docs: [DocumentInfo]) {
-            self.docs = docs
-        }
-
-        override func documentDirectory() -> URL? {
-           return FileManager.default.temporaryDirectory
-        }
-
-        override func contentsOfDirectory(at url: URL) throws -> [URL] {
-            let urls: [URL] = docs.compactMap { (name: String, date: Date) in
-                var url = URL(fileURLWithPath: name, isDirectory: false, relativeTo: documentDirectory()!)
-
-                var resourceValues = URLResourceValues()
-                resourceValues.name = name
-                resourceValues.contentModificationDate = date
-
-                FileManager.default.createFile(atPath: url.path, contents: Data(base64Encoded: "test"), attributes: [:])
-                try! url.setResourceValues(resourceValues)
-
-                return url
-            }
-
-            return urls
-        }
-    }
+    private let doc1 = (name: "test.pdf", date: Date(timeIntervalSince1970: 100))
+    private let doc2 = (name: "OtherTest.jpeg", date: Date(timeIntervalSince1970: 10))
 
     override func setUpWithError() throws {
-        let doc1 = (name: "test.pdf", date: Date(timeIntervalSince1970: 100))
-        let doc2 = (name: "OtherTest.jpeg", date: Date(timeIntervalSince1970: 10))
-        mockFileManager = TempFileManager(docs: [doc1, doc2])
+        let urls = try FileManager.default.contentsOfDirectory(at: .temporaryDirectory, includingPropertiesForKeys: [], options: [])
+        urls.forEach { url in
+            try? FileManager.default.removeItem(at: url)
+        }
+        [doc1, doc2].forEach { (name: String, date: Date) in
+            var url = URL(fileURLWithPath: name, isDirectory: false, relativeTo: .temporaryDirectory)
 
-        documentsStore = DocumentsStore(relativePath: "/", sorting: .date(ascending: false), documentsSource: mockFileManager)
+            var resourceValues = URLResourceValues()
+            resourceValues.name = name
+            resourceValues.contentModificationDate = date
+
+            FileManager.default.createFile(atPath: url.path, contents: Data(base64Encoded: "test"), attributes: [:])
+            try! url.setResourceValues(resourceValues)
+        }
+
+        documentsStore = DocumentsStore(
+            root: .temporaryDirectory,
+            relativePath: "",
+            sorting: .date(ascending: false),
+            documentsSource: FileManager.default
+        )
         documentsStore.loadDocuments()
     }
 
     override func tearDownWithError() throws {
-        let urls = try FileManager.default.contentsOfDirectory(at: mockFileManager.documentDirectory()!, includingPropertiesForKeys: [], options: [])
+        let urls = try FileManager.default.contentsOfDirectory(at: .temporaryDirectory, includingPropertiesForKeys: [], options: [])
         urls.forEach { url in
             try? FileManager.default.removeItem(at: url)
         }
@@ -69,7 +54,6 @@ class DocumentsStoreTests: XCTestCase {
         XCTAssertEqual(documents.first?.name, "test.pdf")
 
         documentsStore.setSorting(.name(ascending: true))
-//        try? await Task.sleep(nanoseconds: NSEC_PER_MSEC)
         documents = documentsStore.documents
         
         XCTAssertEqual(documents.first?.name, "OtherTest.jpeg")
@@ -79,10 +63,10 @@ class DocumentsStoreTests: XCTestCase {
         let docToImport = documentsStore.documents.first!
         let urlToImport = docToImport.url
 
-        let folderUrl = mockFileManager.documentDirectory()?.appendingPathComponent("testFolder", isDirectory: true)
-        try? mockFileManager.createDirectory(at: folderUrl!)
+        let folderUrl = URL.temporaryDirectory.appendingPathComponent("testFolder", isDirectory: true)
+        try? FileManager.default.createDirectory(at: folderUrl)
 
-        let docStore = DocumentsStore(relativePath: "/testFolder", sorting: SortOption.date(ascending: false), documentsSource: mockFileManager)
+        let docStore = DocumentsStore(root: .temporaryDirectory, relativePath: "testFolder", sorting: SortOption.date(ascending: false), documentsSource: FileManager.default)
         docStore.importFile(from: urlToImport)
 
         let importedDocument = docStore.documents.first { doc in
