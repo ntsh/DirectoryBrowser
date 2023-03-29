@@ -4,31 +4,24 @@ public struct FolderView: View {
     @State var isPresentedPicker = false
     @State var isPresentedPhotoPicker = false
     @State var isInputingNewFolderName = false
-    @State var isInputingRenameDocName = false
     @State var documentToRename: Document?
     @State var documentNameErrorMessage: String?
 
     @ObservedObject var documentsStore: DocumentsStore
     var title: String
 
+    @ViewBuilder
     var listSectionHeader: some View {
-        HStack {
             if isInputingNewFolderName {
                 DocumentNameInputView(errorMessage: $documentNameErrorMessage, heading: "Enter Folder Name") {
                     finishEnteringDocName()
                 } setName: { (name) in
                     createFolder(name: name)
                 }
-            } else if isInputingRenameDocName {
-                DocumentNameInputView(errorMessage: $documentNameErrorMessage, heading: "Enter new name") {
-                    finishEnteringDocName()
-                } setName: { (name) in
-                    renameDocument(name: name)
-                }
             } else {
                 Text("All").background(Color.clear)
             }
-        }
+
     }
 
     fileprivate func sortByDateButton() -> some View {
@@ -105,8 +98,7 @@ public struct FolderView: View {
                         NavigationLink(destination: navigationDestination(for: document)) {
                             DocumentRow(
                                 document: document,
-                                deleteDocument: { deleteDocument(document) },
-                                editDocumentName: { editDocumentName(document) }
+                                documentsStore: documentsStore
                             )
                             .padding(.vertical)
                         }
@@ -184,7 +176,6 @@ public struct FolderView: View {
     fileprivate func finishEnteringDocName() {
         withAnimation {
             isInputingNewFolderName = false
-            isInputingRenameDocName = false
             documentNameErrorMessage = nil
         }
     }
@@ -198,27 +189,6 @@ public struct FolderView: View {
     private func deleteDocument(_ document: Document) {
         withAnimation {
             documentsStore.delete(document)
-        }
-    }
-
-    private func editDocumentName(_ document: Document) {
-        withAnimation {
-            isInputingRenameDocName = true
-            documentToRename = document
-        }
-    }
-
-    private func renameDocument(name: String) {
-        guard let documentToRename = documentToRename else { return }
-        do {
-            try documentsStore.rename(document: documentToRename, newName: name)
-            finishEnteringDocName()
-        } catch DocumentsStoreError.fileExists {
-            withAnimation {
-                documentNameErrorMessage = "Document already exists"
-            }
-        } catch {
-            documentNameErrorMessage = "Unexpected error"
         }
     }
 }
