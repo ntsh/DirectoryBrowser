@@ -103,22 +103,12 @@ public struct FolderView: View {
                 Section(header: listSectionHeader) {
                     ForEach(documentsStore.documents) { document in
                         NavigationLink(destination: navigationDestination(for: document)) {
-                            DocumentRow(document: document)
-                                .padding(.vertical)
-                                .contextMenu {
-                                    Button(action: { deleteDocument(document) }) {
-                                        Label("Delete", systemImage: "trash")
-                                    }
-                                    Button(action: { editDocumentName(document)}) {
-                                        Label("Rename", systemImage: "pencil")
-                                    }
-                                    Button(action: {}) {
-                                        Label("Move", systemImage: "folder.badge.gear")
-                                    }
-                                    Button(action: {}) {
-                                        Label("Share", systemImage: "square.and.arrow.up")
-                                    }
-                                }
+                            DocumentRow(
+                                document: document,
+                                deleteDocument: { deleteDocument(document) },
+                                editDocumentName: { editDocumentName(document) }
+                            )
+                            .padding(.vertical)
                         }
                     }
                     .onDelete(perform: deleteItems)
@@ -233,10 +223,13 @@ public struct FolderView: View {
     }
 }
 
+import FilePreviews
+
 struct FolderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             FolderView(documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory, relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
+                .environmentObject(Thumbnailer())
         }
     }
 }
