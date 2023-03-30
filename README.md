@@ -32,3 +32,7 @@ import DirectoryBrowser
     DirectoryBrowser()
 }
 ```
+
+## Demo
+
+![DirectoryBrowserDemo](https://user-images.githubusercontent.com/2085458/228767225-6ef60c17-68ce-4bf3-859f-86d1c6b192a4.gif)
