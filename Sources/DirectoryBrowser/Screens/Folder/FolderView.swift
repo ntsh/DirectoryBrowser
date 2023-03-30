@@ -4,31 +4,24 @@ public struct FolderView: View {
     @State var isPresentedPicker = false
     @State var isPresentedPhotoPicker = false
     @State var isInputingNewFolderName = false
-    @State var isInputingRenameDocName = false
     @State var documentToRename: Document?
     @State var documentNameErrorMessage: String?
 
     @ObservedObject var documentsStore: DocumentsStore
     var title: String
 
+    @ViewBuilder
     var listSectionHeader: some View {
-        HStack {
             if isInputingNewFolderName {
                 DocumentNameInputView(errorMessage: $documentNameErrorMessage, heading: "Enter Folder Name") {
                     finishEnteringDocName()
                 } setName: { (name) in
                     createFolder(name: name)
                 }
-            } else if isInputingRenameDocName {
-                DocumentNameInputView(errorMessage: $documentNameErrorMessage, heading: "Enter new name") {
-                    finishEnteringDocName()
-                } setName: { (name) in
-                    renameDocument(name: name)
-                }
             } else {
                 Text("All").background(Color.clear)
             }
-        }
+
     }
 
     fileprivate func sortByDateButton() -> some View {
@@ -103,22 +96,11 @@ public struct FolderView: View {
                 Section(header: listSectionHeader) {
                     ForEach(documentsStore.documents) { document in
                         NavigationLink(destination: navigationDestination(for: document)) {
-                            DocumentRow(document: document)
-                                .padding(.vertical)
-                                .contextMenu {
-                                    Button(action: { deleteDocument(document) }) {
-                                        Label("Delete", systemImage: "trash")
-                                    }
-                                    Button(action: { editDocumentName(document)}) {
-                                        Label("Rename", systemImage: "pencil")
-                                    }
-                                    Button(action: {}) {
-                                        Label("Move", systemImage: "folder.badge.gear")
-                                    }
-                                    Button(action: {}) {
-                                        Label("Share", systemImage: "square.and.arrow.up")
-                                    }
-                                }
+                            DocumentRow(
+                                document: document,
+                                documentsStore: documentsStore
+                            )
+                            .padding(.vertical)
                         }
                     }
                     .onDelete(perform: deleteItems)
@@ -194,7 +176,6 @@ public struct FolderView: View {
     fileprivate func finishEnteringDocName() {
         withAnimation {
             isInputingNewFolderName = false
-            isInputingRenameDocName = false
             documentNameErrorMessage = nil
         }
     }
@@ -210,33 +191,15 @@ public struct FolderView: View {
             documentsStore.delete(document)
         }
     }
-
-    private func editDocumentName(_ document: Document) {
-        withAnimation {
-            isInputingRenameDocName = true
-            documentToRename = document
-        }
-    }
-
-    private func renameDocument(name: String) {
-        guard let documentToRename = documentToRename else { return }
-        do {
-            try documentsStore.rename(document: documentToRename, newName: name)
-            finishEnteringDocName()
-        } catch DocumentsStoreError.fileExists {
-            withAnimation {
-                documentNameErrorMessage = "Document already exists"
-            }
-        } catch {
-            documentNameErrorMessage = "Unexpected error"
-        }
-    }
 }
+
+import FilePreviews
 
 struct FolderView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             FolderView(documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory, relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
+                .environmentObject(Thumbnailer())
         }
     }
 }

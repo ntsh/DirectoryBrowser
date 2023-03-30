@@ -1,7 +1,8 @@
 import Foundation
 
-enum DocumentsStoreError: Error {
+enum DocumentsStoreError: Error, LocalizedError {
     case fileExists
+    case fileWasDeleted
 }
 
 protocol DocumentImporter {
@@ -18,7 +19,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     private var documentManager: DocumentManager
     private let attrKeys: [URLResourceKey] = [.nameKey, .fileSizeKey, .contentModificationDateKey, .creationDateKey, .isDirectoryKey]
 
-    private var workingDirectory: URL? {
+    private var workingDirectory: URL {
         guard relativePath.count > 0 else {
             return docDirectory
         }
@@ -56,13 +57,8 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     }
 
     func loadDocuments() {
-        guard let docDirectory = workingDirectory else {
-            documents = []
-            return
-        }
-
         do {
-            let allFiles = try documentManager.contentsOfDirectory(at: docDirectory)
+            let allFiles = try documentManager.contentsOfDirectory(at: workingDirectory)
             documents = allFiles.map { document(from: $0) }.compactMap{ $0 }
         } catch let error as NSError {
             NSLog("Error traversing files directory: \(error)")
@@ -98,11 +94,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     }
 
     func createFolder(_ name: String) throws {
-        guard let docDirectory = workingDirectory else {
-            return
-        }
-
-        let target = docDirectory.appendingPathComponent(name, isDirectory: true)
+        let target = workingDirectory.appendingPathComponent(name, isDirectory: true)
         do {
             try documentManager.createDirectory(at: target)
             if let folder = document(from: target) {
@@ -115,10 +107,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     }
 
     func importFile(from url: URL) {
-        guard let docDirectory = workingDirectory else {
-            return
-        }
-        var suitableUrl = docDirectory.appendingPathComponent(url.lastPathComponent)
+        var suitableUrl = workingDirectory.appendingPathComponent(url.lastPathComponent)
 
         var retry = true
         var retryCount = 1
@@ -139,7 +128,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
                 let fileExtension = url.pathExtension
                 let fileNameWithoutExtension = url.deletingPathExtension().lastPathComponent
                 let fileNameWithCountSuffix = fileNameWithoutExtension.appending(" (\(retryCount))")
-                suitableUrl = docDirectory.appendingPathComponent(fileNameWithCountSuffix).appendingPathExtension(fileExtension)
+                suitableUrl = workingDirectory.appendingPathComponent(fileNameWithCountSuffix).appendingPathExtension(fileExtension)
 
                 retryCount += 1
 
@@ -155,12 +144,8 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         return url
     }
 
-    func rename(document: Document, newName: String) throws {
-        guard let docDirectory = workingDirectory else {
-            return
-        }
-
-        let newUrl = docDirectory.appendingPathComponent(newName, isDirectory: document.isDirectory)
+    func rename(document: Document, newName: String) throws -> Document {
+        let newUrl = workingDirectory.appendingPathComponent(newName, isDirectory: document.isDirectory)
         do {
             try documentManager.moveItem(at: document.url, to: newUrl)
 
@@ -174,6 +159,9 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
                 documents.insert(documentToUpdate, at: 0)
 
                 sort()
+                return documentToUpdate
+            } else {
+                throw DocumentsStoreError.fileWasDeleted
             }
         } catch CocoaError.fileWriteFileExists {
             throw DocumentsStoreError.fileExists
