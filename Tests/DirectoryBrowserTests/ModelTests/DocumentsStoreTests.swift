@@ -95,12 +95,33 @@ class DocumentsStoreTests: XCTestCase {
         XCTAssertFalse(isPresent)
     }
 
+    func testCreateNewFolder() throws {
+        try documentsStore.createNewFolder()
+
+        let documentsNew = documentsStore.documents
+        let isPresent = documentsNew.contains(where: { document in
+            document.name == "New Folder"
+        })
+        XCTAssertTrue(isPresent)
+    }
+
+    func testCreateNewFolderDuplicateName() throws {
+        try documentsStore.createNewFolder()
+        try documentsStore.createNewFolder()
+
+        let documentsNew = documentsStore.documents
+        let isPresent = documentsNew.contains {
+            $0.name == "New Folder (1)"
+        }
+        XCTAssertTrue(isPresent)
+    }
+
     func testCreateFolder() {
-        try? documentsStore.createFolder("TestFolder")
+        _ = try? documentsStore.createFolder("TestFolder")
         let documents = documentsStore.documents
 
-        let folder = documents.first { document in
-            document.name == "TestFolder"
+        let folder = documents.first {
+            $0.name == "TestFolder"
         }
 
         XCTAssertEqual(folder!.name, "TestFolder")
@@ -108,7 +129,7 @@ class DocumentsStoreTests: XCTestCase {
     }
 
     func testCreateFolderWithConflictingName() {
-        try? documentsStore.createFolder("TestFolder")
+        _ = try? documentsStore.createFolder("TestFolder")
 
         XCTAssertThrowsError(try documentsStore.createFolder("TestFolder")) { error in
             XCTAssertEqual(error as! DocumentsStoreError, .fileExists)
@@ -119,13 +140,27 @@ class DocumentsStoreTests: XCTestCase {
         let documentsOriginal = documentsStore.documents
         let firstDocument = documentsOriginal.first
 
-        try? documentsStore.rename(document: firstDocument!, newName: "newName.pdf")
+        _ = try? documentsStore.rename(document: firstDocument!, newName: "newName.pdf")
 
         let documentsNew = documentsStore.documents
         let updatedDocument = documentsNew.first(where: { document in
             document.id == firstDocument!.id
         })
         XCTAssertEqual(updatedDocument?.name, "newName.pdf")
+    }
+
+    func testRenameDocumentTwice() {
+        let documentsOriginal = documentsStore.documents
+        let firstDocument = documentsOriginal.first
+
+        let doc1 = try? documentsStore.rename(document: firstDocument!, newName: "newName.pdf")
+        _ = try? documentsStore.rename(document: doc1!, newName: "newName2.pdf")
+
+        let documentsNew = documentsStore.documents
+        let updatedDocument = documentsNew.first {
+            $0.id == firstDocument!.id
+        }
+        XCTAssertEqual(updatedDocument?.name, "newName2.pdf")
     }
 
     func testRenameDocumentWithConflictingName() {

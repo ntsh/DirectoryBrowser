@@ -3,6 +3,7 @@ import Foundation
 enum DocumentsStoreError: Error, LocalizedError {
     case fileExists
     case fileWasDeleted
+    case unknown
 }
 
 protocol DocumentImporter {
@@ -93,16 +94,42 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         }
     }
 
-    func createFolder(_ name: String) throws {
+    @discardableResult
+    func createNewFolder() throws -> Document {
+        var folderName = "New Folder"
+        var folderNumber = 0
+        var folderUrl = workingDirectory.appendingPathComponent(folderName, isDirectory: true)
+        // Check if a folder with the name already exists
+        while documentManager.fileExists(atPath: folderUrl.relativePath) {
+            folderNumber += 1
+            folderName = "New Folder (\(folderNumber))"
+            folderUrl = workingDirectory.appendingPathComponent(folderName, isDirectory: true)
+        }
+
+        // Create the new folder
+        do {
+            return try createFolder(folderName)
+        } catch {
+            print("Error creating new folder \(error)")
+            throw DocumentsStoreError.unknown
+        }
+    }
+
+    @discardableResult
+    func createFolder(_ name: String) throws -> Document {
         let target = workingDirectory.appendingPathComponent(name, isDirectory: true)
         do {
             try documentManager.createDirectory(at: target)
-            if let folder = document(from: target) {
-                documents.insert(folder, at: 0)
-                sort()
-            }
         } catch CocoaError.fileWriteFileExists {
             throw DocumentsStoreError.fileExists
+        }
+
+        if let folder = document(from: target) {
+            documents.insert(folder, at: 0)
+            sort()
+            return folder
+        } else {
+            throw DocumentsStoreError.unknown
         }
     }
 
@@ -144,6 +171,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         return url
     }
 
+    @discardableResult
     func rename(document: Document, newName: String) throws -> Document {
         let newUrl = workingDirectory.appendingPathComponent(newName, isDirectory: document.isDirectory)
         do {

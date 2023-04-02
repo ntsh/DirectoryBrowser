@@ -2,7 +2,8 @@ import FilePreviews
 import SwiftUI
 
 struct DocumentRow: View {
-    @State var document: Document
+    @Binding var document: Document
+    var shouldEdit: Bool = false
     @ObservedObject var documentsStore: DocumentsStore
 
     @State private var isEditing = false
@@ -41,11 +42,14 @@ struct DocumentRow: View {
         .onChange(of: isEditing) {
             nameEditIsFocused = $0
         }
+        .onAppear {
+            isEditing = shouldEdit
+        }
     }
 
     private var editDocumentView: some View {
         HStack {
-            VStack {
+            VStack(alignment: .leading) {
                 TextField("Name", text: $document.name, prompt: nil)
                     .focused($nameEditIsFocused)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -90,13 +94,14 @@ struct DocumentRow: View {
         withAnimation {
             documentNameErrorMessage = nil
             do {
-                document = try documentsStore.rename(document: document, newName: document.name)
+                try documentsStore.rename(document: document, newName: document.name)
                 isEditing = false
             } catch DocumentsStoreError.fileExists {
                 withAnimation {
                     documentNameErrorMessage = "Document already exists"
                 }
             } catch {
+                print("Unexpected error during rename: \(error)")
                 documentNameErrorMessage = "Unexpected error"
             }
         }
@@ -113,10 +118,10 @@ struct DocumentRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             DocumentRow(
-                document: DocumentsStore_Preview(
+                document: .constant(DocumentsStore_Preview(
                     root: URL.temporaryDirectory,
                     relativePath: "/", sorting: .date(ascending: true)
-                ).documents[1],
+                ).documents[1]),
                 documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory)
             )
             .environment(\.sizeCategory, .large)

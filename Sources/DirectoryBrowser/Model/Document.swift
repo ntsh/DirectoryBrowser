@@ -17,3 +17,9 @@ extension Document {
         Int(truncating: size).formatted(ByteCountFormatStyle())
     }
 }
+
+extension Document: Equatable {
+    static func == (lhs: Document, rhs: Document) -> Bool {
+        lhs.id == rhs.id
+    }
+}

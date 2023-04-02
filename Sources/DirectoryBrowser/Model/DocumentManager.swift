@@ -7,4 +7,5 @@ public protocol DocumentManager {
     func createDirectory(at url: URL) throws
     func copyItem(at source: URL, to destination: URL) throws
     func moveItem(at source: URL, to destination: URL) throws
+    func fileExists(atPath path: String) -> Bool
 }

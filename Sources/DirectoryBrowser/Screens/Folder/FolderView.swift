@@ -3,25 +3,16 @@ import SwiftUI
 public struct FolderView: View {
     @State var isPresentedPicker = false
     @State var isPresentedPhotoPicker = false
-    @State var isInputingNewFolderName = false
-    @State var documentToRename: Document?
-    @State var documentNameErrorMessage: String?
+    @State var listProxy: ScrollViewProxy? = nil
+    @State var lastCreatedNewFolder: Document?
 
     @ObservedObject var documentsStore: DocumentsStore
     var title: String
 
     @ViewBuilder
     var listSectionHeader: some View {
-            if isInputingNewFolderName {
-                DocumentNameInputView(errorMessage: $documentNameErrorMessage, heading: "Enter Folder Name") {
-                    finishEnteringDocName()
-                } setName: { (name) in
-                    createFolder(name: name)
-                }
-            } else {
-                Text("All").background(Color.clear)
-            }
-
+        Text("All")
+            .background(Color.clear)
     }
 
     fileprivate func sortByDateButton() -> some View {
@@ -57,13 +48,13 @@ public struct FolderView: View {
                     .foregroundColor(.blue)
             }
             Menu {
-                Button(action: didClickAddButton) {
+                Button(action: { isPresentedPicker = true }) {
                     Label("Import from Files", systemImage: "arrow.up.doc.fill")
                 }
                 Button(action: { }) {
                     Label("Scan", systemImage: "doc.text.fill.viewfinder")
                 }
-                Button(action: didClickImportPhoto) {
+                Button(action: { isPresentedPhotoPicker = true }) {
                     Label("Import Photo", systemImage: "photo.fill.on.rectangle.fill")
                 }
                 Button(action: didClickCreateFolder) {
@@ -92,30 +83,40 @@ public struct FolderView: View {
 
     public var body: some View {
         ZStack {
-            List() {
-                Section(header: listSectionHeader) {
-                    ForEach(documentsStore.documents) { document in
-                        NavigationLink(destination: navigationDestination(for: document)) {
-                            DocumentRow(
-                                document: document,
-                                documentsStore: documentsStore
-                            )
-                            .padding(.vertical)
+            ScrollViewReader { scrollViewProxy in
+                List {
+                    Section(header: listSectionHeader) {
+                        ForEach($documentsStore.documents) { document in
+                            NavigationLink(destination: navigationDestination(for: document.wrappedValue)) {
+                                DocumentRow(
+                                    document: document,
+                                    shouldEdit: (document.id == lastCreatedNewFolder?.id),
+                                    documentsStore: documentsStore
+                                )
+                                .padding(.vertical)
+                                .id(document.id)
+                            }
                         }
+                        .onDelete(perform: deleteItems)
                     }
-                    .onDelete(perform: deleteItems)
+                }
+                .listStyle(InsetListStyle())
+                .onAppear {
+                    listProxy = scrollViewProxy
+                }
+                .refreshable {
+                    documentsStore.reload()
                 }
             }
-            .listStyle(InsetListStyle())
             .background(Color.clear)
             .navigationBarItems(trailing: actionButtons)
             .navigationTitle(title)
-            .sheet(isPresented:  $isPresentedPicker, onDismiss: dismissPicker) {
+            .sheet(isPresented:  $isPresentedPicker) {
                 DocumentPicker(documentsStore: documentsStore) {
                     NSLog("Docupicker callback")
                 }
             }
-            .sheet(isPresented:  $isPresentedPhotoPicker, onDismiss: dismissPicker) {
+            .sheet(isPresented:  $isPresentedPhotoPicker) {
                 PhotoPicker(documentsStore: documentsStore) {
                     NSLog("Imagepicker callback")
                 }
@@ -124,59 +125,42 @@ public struct FolderView: View {
             if (documentsStore.documents.isEmpty) {
                 emptyFolderView
             }
-        }.onAppear {
+        }
+        .task {
             documentsStore.loadDocuments()
         }
     }
 
-    private func navigationDestination(for document: Document) -> AnyView {
+    @ViewBuilder
+    private func navigationDestination(for document: Document) -> some View {
         if document.isDirectory {
             let relativePath = documentsStore.relativePath(for: document)
-            return AnyView(FolderView(documentsStore: DocumentsStore(root: documentsStore.docDirectory, relativePath: relativePath, sorting: documentsStore.sorting), title: document.name))
+            FolderView(
+                documentsStore: DocumentsStore(
+                    root: documentsStore.docDirectory,
+                    relativePath: relativePath,
+                    sorting: documentsStore.sorting
+                ),
+                title: document.name
+            )
         } else {
-            return AnyView(DocumentDetails(document: document))
+            DocumentDetails(document: document)
         }
-    }
-
-    func didClickAddButton()  {
-        NSLog("Did click add button")
-        isPresentedPicker = true
-    }
-
-    func didClickImportPhoto() {
-        isPresentedPhotoPicker = true
-    }
-
-    func dismissPicker() {
-        isPresentedPicker = false
-        isPresentedPhotoPicker = false
     }
 
     func didClickCreateFolder() {
         NSLog("Did click create folder")
-        withAnimation {
-            isInputingNewFolderName = true
-        }
-    }
-
-    func createFolder(name: String) {
-        NSLog("create folder \(name)")
         do {
-            try documentsStore.createFolder(name)
-            finishEnteringDocName()
-        } catch DocumentsStoreError.fileExists {
-            withAnimation {
-                documentNameErrorMessage = "Folder already exists"
+            lastCreatedNewFolder = try documentsStore.createNewFolder()
+            if let lastCreatedNewFolder {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+                    withAnimation {
+                        listProxy?.scrollTo(lastCreatedNewFolder.id, anchor: .top)
+                    }
+                }
             }
         } catch {
-            documentNameErrorMessage = "Unexpected error"
-        }
-    }
-
-    fileprivate func finishEnteringDocName() {
-        withAnimation {
-            isInputingNewFolderName = false
-            documentNameErrorMessage = nil
+            // TODO: Show alert?
         }
     }
 
