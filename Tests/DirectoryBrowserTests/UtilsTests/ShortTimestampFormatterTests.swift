@@ -6,6 +6,6 @@ class ShortTimestampFormatterTests: XCTestCase {
     func testShortTimeStampIsCreated() throws {
         let date = Date(timeIntervalSince1970: 0)
         let formattedDate = ShortTimestampFormatter.string(from: date)
-        XCTAssertEqual(formattedDate, "1/1/70, 1:00 AM")
+        XCTAssertEqual(formattedDate, "01/01/1970, 1:00 AM")
     }
 }

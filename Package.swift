@@ -8,9 +8,8 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(
-            name: "DirectoryBrowser",
-            targets: ["DirectoryBrowser"]),
+        .library( name: "DirectoryBrowser", targets: ["DirectoryBrowser"]),
+        .library(name: "DirectoryManager", targets: ["DirectoryManager"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -21,7 +20,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "DirectoryBrowser",
-            dependencies: ["FilePreviews"]),
+            dependencies: ["FilePreviews", "DirectoryManager"]),
+        .target(name: "DirectoryManager"),
         .testTarget(
             name: "DirectoryBrowserTests",
             dependencies: ["DirectoryBrowser"]),

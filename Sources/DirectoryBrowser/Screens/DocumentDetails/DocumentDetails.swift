@@ -1,3 +1,4 @@
+import DirectoryManager
 import FilePreviews
 import SwiftUI
 
