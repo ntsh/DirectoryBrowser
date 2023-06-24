@@ -7,7 +7,7 @@ public enum DocumentsStoreError: Error, LocalizedError {
 }
 
 public protocol DocumentImporter {
-    func importFile(from url: URL) async
+    @discardableResult func importFile(from url: URL) async -> Document?
 }
 
 @MainActor
@@ -133,7 +133,8 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         }
     }
 
-    public func importFile(from url: URL) {
+    @discardableResult
+    public func importFile(from url: URL) -> Document? {
         var suitableUrl = workingDirectory.appendingPathComponent(url.lastPathComponent)
 
         var retry = true
@@ -143,11 +144,6 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
 
             do {
                 try documentManager.copyItem(at: url, to: suitableUrl)
-
-                if let document = document(from: suitableUrl) {
-                    documents.insert(document, at: self.documents.endIndex)
-                    sort()
-                }
             } catch CocoaError.fileWriteFileExists {
                 retry = true
 
@@ -163,6 +159,13 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
             } catch let error as NSError {
                 NSLog("Error importing file: \(error)")
             }
+        }
+        if let document = document(from: suitableUrl) {
+            documents.insert(document, at: self.documents.endIndex)
+            sort()
+            return document
+        } else {
+            return nil
         }
     }
 
