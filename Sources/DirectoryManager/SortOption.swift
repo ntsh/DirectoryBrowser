@@ -5,7 +5,7 @@ public enum SortOption: Equatable {
     case name(ascending: Bool)
 }
 
-extension SortOption {
+public extension SortOption {
     func dateButtonIcon() -> String {
         sortConfigs().dateButtonIcon
     }

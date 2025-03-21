@@ -1,5 +1,5 @@
 import XCTest
-@testable import DirectoryBrowser
+@testable import DirectoryManager
 
 class SortComparatorTests: XCTestCase {
 

@@ -36,3 +36,13 @@ import DirectoryBrowser
 ## Demo
 
 ![DirectoryBrowserDemo](https://user-images.githubusercontent.com/2085458/228767225-6ef60c17-68ce-4bf3-859f-86d1c6b192a4.gif)
+
+## Libraries
+
+### DirectoryBrowser
+
+The `DirectoryBrowser` library provides the UI components to easily view and manage files in your app's directories.
+
+### DirectoryManager
+
+The `DirectoryManager` library is the core of the package, providing the necessary functionality to browse and manage files via code.

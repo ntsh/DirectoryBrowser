@@ -1,3 +1,4 @@
+import DirectoryManager
 import FilePreviews
 import SwiftUI
 
@@ -127,6 +128,7 @@ struct DocumentRow_Previews: PreviewProvider {
             .environment(\.sizeCategory, .large)
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
+            .environmentObject(Thumbnailer())
         }
     }
 }

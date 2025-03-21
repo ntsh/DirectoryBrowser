@@ -1,3 +1,4 @@
+import DirectoryManager
 import SwiftUI
 
 public struct FolderView: View {
@@ -15,16 +16,6 @@ public struct FolderView: View {
             .background(Color.clear)
     }
 
-    fileprivate func sortByDateButton() -> some View {
-        let sortImage: String = documentsStore.sorting.dateButtonIcon()
-        return Label("Sort by date", systemImage: sortImage)
-    }
-
-    fileprivate func sortByNameButton() -> some View {
-        let sortImage: String =  documentsStore.sorting.nameButtonIcon()
-        return Label("Sort by name", systemImage: sortImage)
-    }
-
     var actionButtons: some View {
         HStack {
             Menu {
@@ -33,14 +24,14 @@ public struct FolderView: View {
                         documentsStore.setSorting(documentsStore.sorting.toggleToDateSortOption())
                     }
                 }) {
-                    sortByDateButton()
+                    Label("Sort by date", systemImage: documentsStore.sorting.dateButtonIcon())
                 }
                 Button(action: {
                     withAnimation {
                         documentsStore.setSorting(documentsStore.sorting.toggleToNameSortOption())
                     }
                 }) {
-                    sortByNameButton()
+                    Label("Sort by name", systemImage: documentsStore.sorting.nameButtonIcon())
                 }
             } label: {
                 Image(systemName: "arrow.up.arrow.down")

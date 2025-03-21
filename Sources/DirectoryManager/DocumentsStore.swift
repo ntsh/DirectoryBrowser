@@ -1,21 +1,21 @@
 import Foundation
 
-enum DocumentsStoreError: Error, LocalizedError {
+public enum DocumentsStoreError: Error, LocalizedError {
     case fileExists
     case fileWasDeleted
     case unknown
 }
 
-protocol DocumentImporter {
-    func importFile(from url: URL) async
+public protocol DocumentImporter {
+    @discardableResult func importFile(from url: URL) async -> Document?
 }
 
 @MainActor
 public class DocumentsStore: ObservableObject, DocumentImporter {
-    @Published var documents: [Document] = []
-    @Published var sorting: SortOption = .date(ascending: false) //TODO: Get it from userdefaults
+    @Published public var documents: [Document] = []
+    @Published public var sorting: SortOption = .date(ascending: false) //TODO: Get it from userdefaults
 
-    var docDirectory: URL
+    public var docDirectory: URL
     private var relativePath: String
     private var documentManager: DocumentManager
     private let attrKeys: [URLResourceKey] = [.nameKey, .fileSizeKey, .contentModificationDateKey, .creationDateKey, .isDirectoryKey]
@@ -57,7 +57,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         return document
     }
 
-    func loadDocuments() {
+    public func loadDocuments() {
         do {
             let allFiles = try documentManager.contentsOfDirectory(at: workingDirectory)
             documents = allFiles.map { document(from: $0) }.compactMap{ $0 }
@@ -68,7 +68,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         sort()
     }
 
-    func reload() {
+    public func reload() {
         loadDocuments()
     }
 
@@ -76,13 +76,13 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         documents.sort(by: sorting.sortingComparator())
     }
 
-    func setSorting(_ sorting: SortOption) {
+    public func setSorting(_ sorting: SortOption) {
         self.sorting = sorting
 
         sort()
     }
 
-    func delete(_ document: Document) {
+    public func delete(_ document: Document) {
         do {
             try documentManager.removeItem(at: document.url)
             // Find current document and remove from documents array
@@ -95,7 +95,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     }
 
     @discardableResult
-    func createNewFolder() throws -> Document {
+    public func createNewFolder() throws -> Document {
         var folderName = "New Folder"
         var folderNumber = 0
         var folderUrl = workingDirectory.appendingPathComponent(folderName, isDirectory: true)
@@ -116,7 +116,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     }
 
     @discardableResult
-    func createFolder(_ name: String) throws -> Document {
+    public func createFolder(_ name: String) throws -> Document {
         let target = workingDirectory.appendingPathComponent(name, isDirectory: true)
         do {
             try documentManager.createDirectory(at: target)
@@ -133,7 +133,8 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         }
     }
 
-    func importFile(from url: URL) {
+    @discardableResult
+    public func importFile(from url: URL) -> Document? {
         var suitableUrl = workingDirectory.appendingPathComponent(url.lastPathComponent)
 
         var retry = true
@@ -143,11 +144,6 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
 
             do {
                 try documentManager.copyItem(at: url, to: suitableUrl)
-
-                if let document = document(from: suitableUrl) {
-                    documents.insert(document, at: self.documents.endIndex)
-                    sort()
-                }
             } catch CocoaError.fileWriteFileExists {
                 retry = true
 
@@ -164,15 +160,22 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
                 NSLog("Error importing file: \(error)")
             }
         }
+        if let document = document(from: suitableUrl) {
+            documents.insert(document, at: self.documents.endIndex)
+            sort()
+            return document
+        } else {
+            return nil
+        }
     }
 
-    func relativePath(for document: Document) -> String {
+    public func relativePath(for document: Document) -> String {
         let url = URL(fileURLWithPath: document.name, isDirectory: document.isDirectory, relativeTo: URL(fileURLWithPath: "/\(relativePath)", isDirectory: true)).path
         return url
     }
 
     @discardableResult
-    func rename(document: Document, newName: String) throws -> Document {
+    public func rename(document: Document, newName: String) throws -> Document {
         let newUrl = workingDirectory.appendingPathComponent(newName, isDirectory: document.isDirectory)
         do {
             try documentManager.moveItem(at: document.url, to: newUrl)
@@ -197,8 +200,8 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     }
 }
 
-class DocumentsStore_Preview: DocumentsStore {
-    override var documents: [Document] {
+public class DocumentsStore_Preview: DocumentsStore {
+    override public var documents: [Document] {
         set {
             super.documents = newValue
         }
