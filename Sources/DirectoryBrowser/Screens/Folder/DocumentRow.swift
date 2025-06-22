@@ -10,6 +10,8 @@ struct DocumentRow: View {
     @State private var isEditing = false
     @FocusState private var nameEditIsFocused: Bool
     @State private var documentNameErrorMessage: String?
+    @Environment(\.confirmDelete) private var confirmDelete
+    @State private var showDeleteConfirm = false
 
     var body: some View {
         HStack (alignment: .center, spacing: 16) {
@@ -45,6 +47,10 @@ struct DocumentRow: View {
         }
         .onAppear {
             isEditing = shouldEdit
+        }
+        .alert("Delete this document?", isPresented: $showDeleteConfirm) {
+            Button("Delete", role: .destructive) { performDelete() }
+            Button("Cancel", role: .cancel) { }
         }
     }
 
@@ -109,6 +115,14 @@ struct DocumentRow: View {
     }
 
     private func deleteDocument() {
+        if confirmDelete {
+            showDeleteConfirm = true
+        } else {
+            performDelete()
+        }
+    }
+
+    private func performDelete() {
         withAnimation {
             documentsStore.delete(document)
         }
@@ -129,6 +143,7 @@ struct DocumentRow_Previews: PreviewProvider {
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
             .environmentObject(Thumbnailer())
+            .environment(\.confirmDelete, true)
         }
     }
 }
