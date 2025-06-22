@@ -15,6 +15,7 @@
 		78DDCBFA29D0AD6D00B97994 /* DirectoryBrowserDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DirectoryBrowserDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78DDCBFD29D0AD6D00B97994 /* DirectoryBrowserDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryBrowserDemoApp.swift; sourceTree = "<group>"; };
 		78DDCC0C29D0ADA900B97994 /* DirectoryBrowser */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DirectoryBrowser; path = ../..; sourceTree = "<group>"; };
+		CD982D482E0848820043FF5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +58,7 @@
 		78DDCBFC29D0AD6D00B97994 /* DirectoryBrowserDemo */ = {
 			isa = PBXGroup;
 			children = (
+				CD982D482E0848820043FF5B /* Info.plist */,
 				78DDCBFD29D0AD6D00B97994 /* DirectoryBrowserDemoApp.swift */,
 			);
 			path = DirectoryBrowserDemo;
@@ -276,8 +278,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = MN36AT8M6S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DirectoryBrowserDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -308,8 +312,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = MN36AT8M6S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DirectoryBrowserDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
