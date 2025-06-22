@@ -4,6 +4,7 @@ import SwiftUI
 public struct FolderView: View {
     @State var isPresentedPicker = false
     @State var isPresentedPhotoPicker = false
+    @State var isPresentedScanner = false
     @State var listProxy: ScrollViewProxy? = nil
     @State var lastCreatedNewFolder: Document?
 
@@ -42,7 +43,7 @@ public struct FolderView: View {
                 Button(action: { isPresentedPicker = true }) {
                     Label("Import from Files", systemImage: "arrow.up.doc.fill")
                 }
-                Button(action: { }) {
+                Button(action: { isPresentedScanner = true }) {
                     Label("Scan", systemImage: "doc.text.fill.viewfinder")
                 }
                 Button(action: { isPresentedPhotoPicker = true }) {
@@ -106,6 +107,11 @@ public struct FolderView: View {
             .sheet(isPresented:  $isPresentedPicker) {
                 DocumentPicker(documentsStore: documentsStore) {
                     NSLog("Docupicker callback")
+                }
+            }
+            .sheet(isPresented:  $isPresentedScanner) {
+                DocumentScanner(documentsStore: documentsStore) {
+                    NSLog("Scanner callback")
                 }
             }
             .sheet(isPresented:  $isPresentedPhotoPicker) {
