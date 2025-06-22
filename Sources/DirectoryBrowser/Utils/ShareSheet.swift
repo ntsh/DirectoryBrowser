@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if os(iOS)
 struct ShareSheet: UIViewControllerRepresentable {
     var activityItems: [Any]
     var applicationActivities: [UIActivity]? = nil
@@ -13,3 +14,4 @@ struct ShareSheet: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
+#endif

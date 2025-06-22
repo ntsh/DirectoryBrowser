@@ -3,6 +3,7 @@ import SwiftUI
 import PhotosUI
 import Foundation
 
+#if os(iOS)
 struct PhotoPicker: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = PHPickerViewController
@@ -77,3 +78,13 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
     }
 }
+#else
+struct PhotoPicker: View {
+    var completion: ([URL]) -> Void
+
+    var body: some View {
+        Text("PhotoPicker not available")
+            .onAppear { completion([]) }
+    }
+}
+#endif

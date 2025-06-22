@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "DirectoryBrowser",
-    platforms: [.iOS(.v16)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library( name: "DirectoryBrowser", targets: ["DirectoryBrowser"]),

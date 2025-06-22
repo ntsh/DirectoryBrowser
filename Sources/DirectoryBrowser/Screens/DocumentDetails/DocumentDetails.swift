@@ -38,9 +38,18 @@ struct DocumentDetails: View {
                     DocumentAttributeRow(key: "Modified", value: modified.formatted())
                 }
             }
-            .listStyle(InsetGroupedListStyle())
         }
         .quickLookPreview($urlToPreview)
+#if os(iOS)
+        .listStyle(InsetGroupedListStyle())
+        .navigationBarItems(trailing: HStack {
+            Button(action: showPreview) {
+                Image(systemName: "play.fill")
+            }.foregroundColor(.blue)
+            Button(action: { isShowingShareSheet = true }) {
+                Image(systemName: "square.and.arrow.up")
+            }.foregroundColor(.blue)
+        })
         .sheet(isPresented: $isShowingShareSheet) {
             ShareSheet(activityItems: [document.url]) { activityType, completed, _, error in
                 if completed {
@@ -54,14 +63,7 @@ struct DocumentDetails: View {
             }
         }
         .toast(isShowing: $showShareSuccess, message: "Shared successfully")
-        .navigationBarItems(trailing: HStack {
-            Button(action: showPreview) {
-                Image(systemName: "play.fill")
-            }.foregroundColor(.blue)
-            Button(action: { isShowingShareSheet = true }) {
-                Image(systemName: "square.and.arrow.up")
-            }.foregroundColor(.blue)
-        })
+#endif
     }
 
     func showPreview() {
