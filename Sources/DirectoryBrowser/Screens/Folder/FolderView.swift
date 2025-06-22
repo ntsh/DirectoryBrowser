@@ -10,6 +10,10 @@ public struct FolderView: View {
     @ObservedObject var documentsStore: DocumentsStore
     var title: String
 
+    @Environment(\.confirmDelete) private var confirmDelete
+    @State private var showDeleteConfirm = false
+    @State private var pendingDeleteOffsets: IndexSet?
+
     @ViewBuilder
     var listSectionHeader: some View {
         Text("All")
@@ -121,6 +125,17 @@ public struct FolderView: View {
         .task {
             documentsStore.loadDocuments()
         }
+        .alert("Delete selected documents?", isPresented: $showDeleteConfirm) {
+            Button("Delete", role: .destructive) {
+                if let offsets = pendingDeleteOffsets {
+                    performDelete(offsets: offsets)
+                    pendingDeleteOffsets = nil
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                pendingDeleteOffsets = nil
+            }
+        }
     }
 
     @ViewBuilder
@@ -157,6 +172,15 @@ public struct FolderView: View {
     }
 
     private func deleteItems(offsets: IndexSet) {
+        if confirmDelete {
+            pendingDeleteOffsets = offsets
+            showDeleteConfirm = true
+        } else {
+            performDelete(offsets: offsets)
+        }
+    }
+
+    private func performDelete(offsets: IndexSet) {
         offsets
             .map { documentsStore.documents[$0] }
             .forEach { deleteDocument($0) }
@@ -176,6 +200,7 @@ struct FolderView_Previews: PreviewProvider {
         NavigationView {
             FolderView(documentsStore: DocumentsStore_Preview(root: URL.temporaryDirectory, relativePath: "/", sorting: .date(ascending: true)), title: "Docs")
                 .environmentObject(Thumbnailer())
+                .environment(\.confirmDelete, true)
         }
     }
 }
