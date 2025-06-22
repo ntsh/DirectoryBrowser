@@ -1,27 +1,35 @@
 import Foundation
 
+/// Options describing how ``DocumentsStore`` sorts its items.
 public enum SortOption: Equatable {
+    /// Sort by modification date.
     case date(ascending: Bool)
+    /// Sort alphabetically by name.
     case name(ascending: Bool)
 }
 
 public extension SortOption {
+    /// System image name representing the date sort icon.
     func dateButtonIcon() -> String {
         sortConfigs().dateButtonIcon
     }
 
+    /// System image name representing the name sort icon.
     func nameButtonIcon() -> String {
         sortConfigs().nameButtonIcon
     }
 
+    /// Returns the ``SortOption`` toggled to the opposite date order.
     func toggleToDateSortOption() -> SortOption {
         sortConfigs().toggleToDateSortOption
     }
 
+    /// Returns the ``SortOption`` toggled to the opposite name order.
     func toggleToNameSortOption() -> SortOption {
         sortConfigs().toggleToNameSortOption
     }
 
+    /// Comparator used for sorting ``Document`` objects.
     func sortingComparator() -> (Document, Document) -> Bool {
         return sortConfigs().comparator
     }

@@ -46,3 +46,8 @@ The `DirectoryBrowser` library provides the UI components to easily view and man
 ### DirectoryManager
 
 The `DirectoryManager` library is the core of the package, providing the necessary functionality to browse and manage files via code.
+
+## API Documentation
+
+- [DirectoryBrowser](Sources/DirectoryBrowser/README.md)
+- [DirectoryManager](Sources/DirectoryManager/README.md)

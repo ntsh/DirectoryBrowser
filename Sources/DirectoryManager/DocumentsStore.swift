@@ -1,25 +1,38 @@
 import Foundation
 
+/// Error values thrown by ``DocumentsStore`` operations.
 public enum DocumentsStoreError: Error, LocalizedError {
+    /// An item with the same name already exists.
     case fileExists
+    /// The referenced file no longer exists on disk.
     case fileWasDeleted
+    /// A generic unknown failure occurred.
     case unknown
 }
 
+/// Type responsible for importing external files.
 public protocol DocumentImporter {
+    /// Imports a file located at the given URL and returns the created ``Document``.
+    /// - Parameter url: Source location of the file.
+    /// - Returns: Newly created ``Document`` or `nil` if import failed.
     @discardableResult func importFile(from url: URL) async -> Document?
 }
 
 @MainActor
+/// Observable object that loads and manipulates documents from a directory.
 public class DocumentsStore: ObservableObject, DocumentImporter {
+    /// Current list of ``Document`` objects available in the directory.
     @Published public var documents: [Document] = []
+    /// Current sorting preference used when displaying documents.
     @Published public var sorting: SortOption = .date(ascending: false) //TODO: Get it from userdefaults
 
+    /// Root directory being browsed.
     public var docDirectory: URL
     private var relativePath: String
     private var documentManager: DocumentManager
     private let attrKeys: [URLResourceKey] = [.nameKey, .fileSizeKey, .contentModificationDateKey, .creationDateKey, .isDirectoryKey]
 
+    /// Directory being operated on taking into account the relative path.
     private var workingDirectory: URL {
         guard relativePath.count > 0 else {
             return docDirectory
@@ -28,6 +41,12 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         return docDirectory.appendingPathComponent(relativePath)
     }
 
+    /// Creates a store pointing to the provided root directory.
+    /// - Parameters:
+    ///   - root: Base directory to manage.
+    ///   - relativePath: Optional subdirectory relative to `root`.
+    ///   - sorting: Initial ``SortOption`` to apply.
+    ///   - documentsSource: Implementation used to perform file system operations.
     public init(
         root: URL,
         relativePath: String = "",
@@ -40,6 +59,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         self.documentManager = documentsSource
     }
 
+    /// Creates a ``Document`` instance from a file URL.
     fileprivate func document(from url: URL) -> Document? {
         var document: Document? = nil
         do {
@@ -57,6 +77,7 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         return document
     }
 
+    /// Loads the contents of ``workingDirectory`` into ``documents``.
     public func loadDocuments() {
         do {
             let allFiles = try documentManager.contentsOfDirectory(at: workingDirectory)
@@ -68,20 +89,26 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         sort()
     }
 
+    /// Reloads the directory contents.
     public func reload() {
         loadDocuments()
     }
 
+    /// Sorts ``documents`` according to ``sorting``.
     fileprivate func sort() {
         documents.sort(by: sorting.sortingComparator())
     }
 
+    /// Updates the sorting preference.
+    /// - Parameter sorting: New option to use.
     public func setSorting(_ sorting: SortOption) {
         self.sorting = sorting
 
         sort()
     }
 
+    /// Deletes a document from disk and removes it from ``documents``.
+    /// - Parameter document: The item to delete.
     public func delete(_ document: Document) {
         do {
             try documentManager.removeItem(at: document.url)
@@ -94,6 +121,8 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         }
     }
 
+    /// Creates a new uniquely named folder in the current directory.
+    /// - Returns: The created folder as a ``Document``.
     @discardableResult
     public func createNewFolder() throws -> Document {
         var folderName = "New Folder"
@@ -115,6 +144,9 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         }
     }
 
+    /// Creates a folder with the provided name.
+    /// - Parameter name: Folder name.
+    /// - Returns: The created folder document.
     @discardableResult
     public func createFolder(_ name: String) throws -> Document {
         let target = workingDirectory.appendingPathComponent(name, isDirectory: true)
@@ -133,6 +165,9 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         }
     }
 
+    /// Imports a file from the given URL into the current directory.
+    /// - Parameter url: Location of the file to copy.
+    /// - Returns: The new ``Document`` instance or `nil`.
     @discardableResult
     public func importFile(from url: URL) -> Document? {
         var suitableUrl = workingDirectory.appendingPathComponent(url.lastPathComponent)
@@ -169,11 +204,18 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
         }
     }
 
+    /// Returns the path of a document relative to the store's root directory.
+    /// - Parameter document: The document whose relative path should be computed.
     public func relativePath(for document: Document) -> String {
         let url = URL(fileURLWithPath: document.name, isDirectory: document.isDirectory, relativeTo: URL(fileURLWithPath: "/\(relativePath)", isDirectory: true)).path
         return url
     }
 
+    /// Renames an existing document.
+    /// - Parameters:
+    ///   - document: The document to rename.
+    ///   - newName: Desired new name for the document.
+    /// - Returns: Updated ``Document`` instance.
     @discardableResult
     public func rename(document: Document, newName: String) throws -> Document {
         let newUrl = workingDirectory.appendingPathComponent(newName, isDirectory: document.isDirectory)
