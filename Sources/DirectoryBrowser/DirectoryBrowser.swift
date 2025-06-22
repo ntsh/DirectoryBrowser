@@ -2,12 +2,17 @@ import DirectoryManager
 import SwiftUI
 import FilePreviews
 
+/// SwiftUI view providing a navigation interface to browse application directories.
 public struct DirectoryBrowser: View {
     @StateObject var thumbnailer = Thumbnailer()
     private var urls: [URL]
     @State private var confirmDelete: Bool
     @State private var showSettings = false
 
+    /// Creates a new browser for the specified directories.
+    /// - Parameters:
+    ///   - urls: Directories that will be presented at the top level.
+    ///   - confirmDelete: Flag controlling whether deletions require confirmation.
     public init(
         urls: [URL] = [.documentsDirectory, .libraryDirectory, .temporaryDirectory],
         confirmDelete: Bool = true
