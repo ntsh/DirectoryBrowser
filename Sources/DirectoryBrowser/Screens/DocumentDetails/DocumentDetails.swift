@@ -6,6 +6,8 @@ struct DocumentDetails: View {
     var document: Document
 
     @State private var urlToPreview: URL?
+    @State private var isShowingShareSheet = false
+    @State private var showShareSuccess = false
 
     public init(document: Document) {
         self.document = document
@@ -43,9 +45,24 @@ struct DocumentDetails: View {
         .navigationBarItems(trailing: HStack {
             Button(action: showPreview) {
                 Image(systemName: "play.fill")
-                    .font(.largeTitle)
+            }.foregroundColor(.blue)
+            Button(action: { isShowingShareSheet = true }) {
+                Image(systemName: "square.and.arrow.up")
             }.foregroundColor(.blue)
         })
+        .sheet(isPresented: $isShowingShareSheet) {
+            ShareSheet(activityItems: [document.url]) { activityType, completed, _, error in
+                if completed {
+                    print("Share successful via: \(activityType?.rawValue ?? "unknown")")
+                    withAnimation { showShareSuccess = true }
+                } else if let error = error {
+                    print("Share failed via: \(activityType?.rawValue ?? "unknown"). Error: \(error)")
+                } else {
+                    print("Share cancelled or failed via: \(activityType?.rawValue ?? "unknown")")
+                }
+            }
+        }
+        .toast(isShowing: $showShareSuccess, message: "Shared successfully")
 #endif
     }
 
