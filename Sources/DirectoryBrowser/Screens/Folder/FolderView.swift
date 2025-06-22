@@ -39,7 +39,6 @@ public struct FolderView: View {
                 }
             } label: {
                 Image(systemName: "arrow.up.arrow.down")
-                    .font(.title2)
                     .foregroundColor(.blue)
             }
             Menu {
@@ -57,7 +56,6 @@ public struct FolderView: View {
                 }
             } label: {
                 Image(systemName: "doc.fill.badge.plus")
-                    .font(.title2)
                     .help(Text("Add documents"))
             }
         }

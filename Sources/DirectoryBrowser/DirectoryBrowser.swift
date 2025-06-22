@@ -10,7 +10,7 @@ public struct DirectoryBrowser: View {
 
     public init(
         urls: [URL] = [.documentsDirectory, .libraryDirectory, .temporaryDirectory],
-        confirmDelete: Bool = false
+        confirmDelete: Bool = true
     ) {
         self.urls = urls
         _confirmDelete = State(initialValue: confirmDelete)
