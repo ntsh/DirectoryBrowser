@@ -10,12 +10,16 @@ public struct Document: Identifiable, Hashable {
 
     /// Display name of the item.
     public var name: String
+
     /// File location on disk.
     public var url: URL
+
     /// File size in bytes.
     public var size: NSNumber
+
     /// Creation timestamp.
     public var created: Date?
+
     /// Last modification timestamp.
     public var modified: Date?
 

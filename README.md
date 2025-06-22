@@ -49,5 +49,5 @@ The `DirectoryManager` library is the core of the package, providing the necessa
 
 ## API Documentation
 
-- [DirectoryBrowser](Docs/DirectoryBrowser.md)
-- [DirectoryManager](Docs/DirectoryManager.md)
+- [DirectoryBrowser](Sources/DirectoryBrowser/README.md)
+- [DirectoryManager](Sources/DirectoryManager/README.md)

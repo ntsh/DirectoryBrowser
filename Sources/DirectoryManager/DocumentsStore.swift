@@ -242,8 +242,8 @@ public class DocumentsStore: ObservableObject, DocumentImporter {
     }
 }
 
-class DocumentsStore_Preview: DocumentsStore {
-    override var documents: [Document] {
+public class DocumentsStore_Preview: DocumentsStore {
+    override public var documents: [Document] {
         set {
             super.documents = newValue
         }
