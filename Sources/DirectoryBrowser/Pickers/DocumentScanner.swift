@@ -1,5 +1,7 @@
-#if os(iOS)
+import DirectoryManager
 import SwiftUI
+
+#if os(iOS)
 import VisionKit
 
 struct DocumentScanner: UIViewControllerRepresentable {
