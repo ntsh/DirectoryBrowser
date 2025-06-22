@@ -36,15 +36,17 @@ struct DocumentDetails: View {
                     DocumentAttributeRow(key: "Modified", value: modified.formatted())
                 }
             }
-            .listStyle(InsetGroupedListStyle())
         }
         .quickLookPreview($urlToPreview)
+#if os(iOS)
+        .listStyle(InsetGroupedListStyle())
         .navigationBarItems(trailing: HStack {
             Button(action: showPreview) {
                 Image(systemName: "play.fill")
                     .font(.largeTitle)
             }.foregroundColor(.blue)
         })
+#endif
     }
 
     func showPreview() {

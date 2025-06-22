@@ -2,6 +2,7 @@ import DirectoryManager
 import Foundation
 import SwiftUI
 
+#if os(iOS)
 struct DocumentPicker: UIViewControllerRepresentable {
 
     typealias UIViewControllerType = UIDocumentPickerViewController
@@ -54,3 +55,15 @@ struct DocumentPicker: UIViewControllerRepresentable {
         }
     }
 }
+
+#else
+struct DocumentPicker: View {
+    var documentsStore: DocumentImporter
+    var completion: ([URL]) -> Void
+
+    var body: some View {
+        Text("DocumentPicker is not available")
+            .onAppear { completion([]) }
+    }
+}
+#endif

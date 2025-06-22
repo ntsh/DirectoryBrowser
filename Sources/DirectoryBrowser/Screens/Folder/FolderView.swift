@@ -100,8 +100,9 @@ public struct FolderView: View {
                 }
             }
             .background(Color.clear)
-            .navigationBarItems(trailing: actionButtons)
             .navigationTitle(title)
+#if os(iOS)
+            .navigationBarItems(trailing: actionButtons)
             .sheet(isPresented:  $isPresentedPicker) {
                 DocumentPicker(documentsStore: documentsStore) {
                     NSLog("Docupicker callback")
@@ -112,7 +113,7 @@ public struct FolderView: View {
                     NSLog("Imagepicker callback")
                 }
             }
-
+#endif
             if (documentsStore.documents.isEmpty) {
                 emptyFolderView
             }
