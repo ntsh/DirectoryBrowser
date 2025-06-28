@@ -8,6 +8,8 @@ public struct DirectoryBrowser: View {
     private var urls: [URL]
     @State private var confirmDelete: Bool
     @State private var showSettings = false
+    @State private var searchText = ""
+    @StateObject private var searcher: DocumentSearcher
 
     /// Creates a new browser for the specified directories.
     /// - Parameters:
@@ -19,13 +21,20 @@ public struct DirectoryBrowser: View {
     ) {
         self.urls = urls
         _confirmDelete = State(initialValue: confirmDelete)
+        _searcher = StateObject(wrappedValue: DocumentSearcher(roots: urls))
     }
 
     public var body: some View {
         NavigationView {
-            List(urls) { url in
-                NavigationLink(url.lastPathComponent) {
-                    FolderView(documentsStore: DocumentsStore(root: url), title: url.lastPathComponent)
+            Group {
+                if searcher.results.isEmpty && searchText.isEmpty {
+                    List(urls) { url in
+                        NavigationLink(url.lastPathComponent) {
+                            FolderView(documentsStore: DocumentsStore(root: url), title: url.lastPathComponent)
+                        }
+                    }
+                } else {
+                    SearchResultsView(searcher: searcher)
                 }
             }
             .navigationTitle("Directories")
@@ -36,6 +45,9 @@ public struct DirectoryBrowser: View {
                 }
             )
 #endif
+            .searchable(text: $searchText)
+            .onSubmit(of: .search) { searcher.search(query: searchText) }
+            .onChange(of: searchText) { if $0.isEmpty { searcher.clear() } }
         }
         .sheet(isPresented: $showSettings) {
             SettingsView(confirmDelete: $confirmDelete)
