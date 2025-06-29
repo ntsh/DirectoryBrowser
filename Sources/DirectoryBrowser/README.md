@@ -1,6 +1,6 @@
 # DirectoryBrowser
 
-`DirectoryBrowser` is a SwiftUI view that presents a list of directories and allows users to navigate and manage the files inside them.
+`DirectoryBrowser` is a SwiftUI view that presents a list of directories and allows users to navigate and manage the files inside them. It can also display and edit the app's `UserDefaults` values.
 
 ## Presenting the View
 
