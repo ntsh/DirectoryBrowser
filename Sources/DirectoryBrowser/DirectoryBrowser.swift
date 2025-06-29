@@ -28,9 +28,19 @@ public struct DirectoryBrowser: View {
         NavigationView {
             Group {
                 if searcher.results.isEmpty && searchText.isEmpty {
-                    List(urls) { url in
-                        NavigationLink(url.lastPathComponent) {
-                            FolderView(documentsStore: DocumentsStore(root: url), title: url.lastPathComponent)
+                    List {
+                        Section(header: Text("Directories")) {
+                            ForEach(urls) { url in
+                                NavigationLink(url.lastPathComponent) {
+                                    FolderView(documentsStore: DocumentsStore(root: url), title: url.lastPathComponent)
+                                }
+                            }
+                        }
+
+                        Section {
+                            NavigationLink("User Defaults") {
+                                UserDefaultsView()
+                            }
                         }
                     }
                 } else {
