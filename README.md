@@ -10,6 +10,7 @@ Useful during development and debugging.
 - Preview thumbnails and content.
 - Create folder, import from Photos and Files apps.
 - Preview and edit UserDefaults values.
+- Inspect SQLite database files and view table contents.
 
 ## Installation
 

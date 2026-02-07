@@ -8,6 +8,10 @@ struct DocumentDetails: View {
     @State private var urlToPreview: URL?
     @State private var isShowingShareSheet = false
     @State private var showShareSuccess = false
+    private var isDatabase: Bool {
+        let ext = document.url.pathExtension.lowercased()
+        return ext == "sqlite" || ext == "db" || ext == "store"
+    }
 
     public init(document: Document) {
         self.document = document
@@ -43,6 +47,12 @@ struct DocumentDetails: View {
 #if os(iOS)
         .listStyle(InsetGroupedListStyle())
         .navigationBarItems(trailing: HStack {
+            if isDatabase {
+                NavigationLink(destination: SQLiteBrowser(url: document.url)) {
+                    Image(systemName: "tablecells")
+                }
+                .foregroundColor(.blue)
+            }
             Button(action: showPreview) {
                 Image(systemName: "play.fill")
             }.foregroundColor(.blue)
